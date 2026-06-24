@@ -9,7 +9,11 @@
     <string>/Users/issacvm/Documents/Futbol Wuru/scheduler/run_scan.sh</string>
   </array>
   <key>StartCalendarInterval</key>
-  <dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+  <array>
+    <dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>21</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
   <key>StandardErrorPath</key><string>/Users/issacvm/Documents/Futbol Wuru/scheduler/scan.err</string>
   <key>RunAtLoad</key><false/>
 </dict>

@@ -93,7 +93,7 @@ def mk_id(h, a, taken):
 
 def main():
     top_n = int(sys.argv[1]) if len(sys.argv)>1 else 15
-    window = int(sys.argv[2]) if len(sys.argv)>2 else 36
+    window = int(sys.argv[2]) if len(sys.argv)>2 else 120  # 5 dias: capturar momios tempranos
     print(f"🔎 Escaneando todas las ligas (ventana {window}h)...")
     ms = fetch_matches(window)
     print(f"   {len(ms)} partidos con momios encontrados")
@@ -114,13 +114,15 @@ def main():
         meta = {"id": mk_id(m["home"], m["away"], taken), "home": m["home"], "away": m["away"],
                 "group": "", "venue": m["league"].replace("soccer_","").replace("_"," ").title(),
                 "host": m["home"] if m["home"].lower() in HOSTS else (m["away"] if m["away"].lower() in HOSTS else "")}
+        if os.path.exists(os.path.join(ROOT, f"match_{meta['id']}.json")):
+            print(f"  ↺ {meta['id']} ya investigado (reuso)"); continue  # cache: no re-gastar GLM
         try: research_match(meta)
         except Exception as e: print(f"  ⚠️ {meta['id']}: {e}")
     print(f"   GLM total: {USAGE['calls']} calls | {USAGE['in']:,} in | {USAGE['out']:,} out")
 
     print("\n📊 export + 💸 seed (Neon, momios reales multi-liga)...")
     subprocess.run([sys.executable, "export_predictions.py"], cwd=ROOT, check=True, capture_output=True)
-    r = subprocess.run("npm run seed", cwd=os.path.join(ROOT,"wuru-bets"), shell=True, capture_output=True, text=True)
+    r = subprocess.run("npm run accrue", cwd=os.path.join(ROOT,"wuru-bets"), shell=True, capture_output=True, text=True)
     print("   " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else r.stderr[-200:]))
     print("\n✅ Listo. Dashboard: https://nova-wuru.vercel.app")
 

@@ -57,8 +57,6 @@ export async function placeBets(
       on conflict (ext_id) do update set kickoff=excluded.kickoff`;
     const matchId = (await sql`select id from matches where ext_id=${p.id}`)[0].id;
     const entry = findEntry(oddsList, p.home, p.away);
-    // evitar duplicar apuestas abiertas del mismo partido
-    await sql`delete from bets where match_id=${matchId} and status='open'`;
 
     const haveReal = oddsList.length > 0;
     // agrupar por mercado para poder de-viguear (quitar margen) cada mercado completo
@@ -81,6 +79,9 @@ export async function placeBets(
         const effProb = haveReal && mProb != null ? W_MODEL * model + (1 - W_MODEL) * mProb : model;
         const edge = ev(effProb, odds);
         if (edge < EV_TH || edge > EDGE_CAP || odds < 1.2 || odds > MAX_ODDS) continue;
+        // si ya tenemos esta apuesta abierta (de una corrida anterior), la MANTENEMOS al momio temprano
+        const dup = await sql`select 1 from bets where match_id=${matchId} and market=${market} and selection=${sels[j].selection} and status='open' limit 1`;
+        if (dup.length) continue;
         const stake = stakeFor(starting, effProb, odds, { fraction: FRAC, maxPct: MAXPCT });
         if (stake < 50) continue;
         const ret = Math.round(stake * (odds - 1));

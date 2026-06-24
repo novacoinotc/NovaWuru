@@ -8,6 +8,7 @@
     "start": "next start",
     "db:init": "tsx scripts/dbinit.ts",
     "seed": "tsx scripts/seed.ts",
+    "accrue": "tsx scripts/accrue.ts",
     "settle": "tsx scripts/settle.ts"
   },
   "dependencies": {
