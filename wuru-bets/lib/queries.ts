@@ -63,6 +63,21 @@ export async function getHistory() {
   }[];
 }
 
+export type Prediction = {
+  match_id: number; league: string; home: string; away: string; kickoff: string;
+  p_home: number; p_draw: number; p_away: number; fav: string; fav_prob: number;
+};
+
+export async function getPredictions(): Promise<Prediction[]> {
+  return (await sql`
+    select p.* from predictions p
+    join matches m on m.id = p.match_id
+    where m.status != 'finished'
+    order by p.kickoff asc nulls last
+    limit 60
+  `) as unknown as Prediction[];
+}
+
 export function kpis(starting: number, current: number, bets: Bet[]) {
   const settled = bets.filter((b) => b.status !== "open");
   const staked = settled.reduce((a, b) => a + Number(b.stake), 0);

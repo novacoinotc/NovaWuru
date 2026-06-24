@@ -1,10 +1,15 @@
-import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, kpis } from "@/lib/queries";
+import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, getPredictions, kpis } from "@/lib/queries";
 import { fmtMXN } from "@/lib/betting";
 import BankrollChart from "@/components/BankrollChart";
 
 export const dynamic = "force-dynamic";
 
 function pct(n: number) { return `${(n * 100).toFixed(1)}%`; }
+function fmtKO(d: string | null) {
+  if (!d) return "—";
+  const dt = new Date(d);
+  return dt.toLocaleString("es-MX", { timeZone: "America/Mexico_City", weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+}
 function Stat({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: "pos" | "neg" }) {
   return (
     <div className="card p-4">
@@ -16,11 +21,11 @@ function Stat({ label, value, sub, tone }: { label: string; value: string; sub?:
 }
 
 export default async function Dashboard() {
-  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [];
+  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [], preds: Awaited<ReturnType<typeof getPredictions>> = [];
   let dbError = "";
   try {
     bankroll = await getBankroll();
-    [open, settled, history, dreams] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets()]);
+    [open, settled, history, dreams, preds] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets(), getPredictions()]);
   } catch (e) {
     dbError = (e as Error).message;
   }
@@ -70,12 +75,37 @@ export default async function Dashboard() {
       </section>
 
       <section className="card p-4 mb-6 overflow-x-auto">
-        <h2 className="font-semibold mb-3">📌 Posiciones abiertas ({open.length})</h2>
+        <h2 className="font-semibold mb-1">🔮 Simulaciones — quién gana según el modelo ({preds.length})</h2>
+        <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Esto es lo que dice la simulación Monte Carlo (100k), <b>sin estrategia de apuestas</b>. Solo el pronóstico: probabilidad de cada resultado y favorito.</p>
         <table>
-          <thead><tr><th>Partido</th><th>Liga</th><th>Mercado</th><th>Pick</th><th>Prob</th><th>Cuota</th><th>Edge</th><th>Stake</th><th>Gana</th></tr></thead>
+          <thead><tr><th>Fecha y hora (MX)</th><th>Partido</th><th>🏆 Favorito</th><th>Local</th><th>Empate</th><th>Visitante</th></tr></thead>
+          <tbody>
+            {preds.map((p) => {
+              const mx = Math.max(Number(p.p_home), Number(p.p_draw), Number(p.p_away));
+              const cell = (v: number) => <td style={{ fontWeight: Number(v) === mx ? 700 : 400, color: Number(v) === mx ? "var(--green)" : undefined }}>{pct(Number(v))}</td>;
+              return (
+                <tr key={p.match_id}>
+                  <td style={{ whiteSpace: "nowrap", color: "var(--muted)", fontSize: 12 }}>{fmtKO(p.kickoff)}</td>
+                  <td><b>{p.home}</b> vs {p.away}</td>
+                  <td><b className="pos">{p.fav}</b> {pct(Number(p.fav_prob))}</td>
+                  {cell(Number(p.p_home))}{cell(Number(p.p_draw))}{cell(Number(p.p_away))}
+                </tr>
+              );
+            })}
+            {preds.length === 0 && <tr><td colSpan={6} style={{ color: "var(--muted)" }}>Sin simulaciones aún. Corre el análisis.</td></tr>}
+          </tbody>
+        </table>
+      </section>
+
+      <section className="card p-4 mb-6 overflow-x-auto">
+        <h2 className="font-semibold mb-1">📌 Apuestas de estrategia — posiciones abiertas ({open.length})</h2>
+        <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Solo donde hay <b>valor real</b> (el momio paga más que la probabilidad). NO apostamos a todos los partidos — solo donde conviene. Stake por ¼ Kelly.</p>
+        <table>
+          <thead><tr><th>Fecha y hora (MX)</th><th>Partido</th><th>Liga</th><th>Mercado</th><th>Pick</th><th>Prob</th><th>Cuota</th><th>Edge</th><th>Stake</th><th>Gana</th></tr></thead>
           <tbody>
             {open.map((b) => (
               <tr key={b.id}>
+                <td style={{ whiteSpace: "nowrap", color: "var(--muted)", fontSize: 12 }}>{fmtKO(b.kickoff)}</td>
                 <td><b>{b.home}</b> vs {b.away}</td>
                 <td><span className="chip">{b.league}</span></td>
                 <td>{b.market}</td>
@@ -87,7 +117,7 @@ export default async function Dashboard() {
                 <td className="pos">{fmtMXN(Number(b.potential_return))}</td>
               </tr>
             ))}
-            {open.length === 0 && <tr><td colSpan={9} style={{ color: "var(--muted)" }}>Sin posiciones abiertas. Corre el análisis diario.</td></tr>}
+            {open.length === 0 && <tr><td colSpan={10} style={{ color: "var(--muted)" }}>Sin posiciones abiertas. Corre el análisis diario.</td></tr>}
           </tbody>
         </table>
       </section>

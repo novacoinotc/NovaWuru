@@ -19,6 +19,7 @@ function canon(s: string): string {
 
 export type OddsEntry = {
   home: string; away: string;
+  kickoff?: string;               // fecha/hora real del partido (ISO, UTC)
   h2h: Record<string, number>;   // por nombre de equipo y "Draw"
   totals: Record<string, number>; // "Over" / "Under" (línea 2.5)
 };
@@ -59,7 +60,7 @@ export async function fetchOdds(): Promise<OddsEntry[]> {
     const h2h: Record<string, number> = {}, totals: Record<string, number> = {};
     for (const k in h2hA) h2h[k] = median(h2hA[k]);   // consenso (mediana), robusto a outliers
     for (const k in totA) totals[k] = median(totA[k]);
-    return { home: ev.home_team, away: ev.away_team, h2h, totals };
+    return { home: ev.home_team, away: ev.away_team, kickoff: ev.commence_time, h2h, totals };
   });
 }
 

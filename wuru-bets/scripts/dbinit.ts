@@ -35,6 +35,14 @@ async function main() {
     parlay_id int references bets(id),
     leg_bet_id int references bets(id)
   )`;
+  // Simulaciones (quién gana según el modelo) — separadas de las apuestas
+  await sql`create table if not exists predictions (
+    id serial primary key,
+    match_id int unique references matches(id) on delete cascade,
+    league text, home text, away text, kickoff timestamptz,
+    p_home numeric, p_draw numeric, p_away numeric,
+    fav text, fav_prob numeric, updated_at timestamptz default now()
+  )`;
 
   const start = Number(process.env.BANKROLL_MXN || 100000);
   await sql`insert into bankroll (id, starting, current) values (1, ${start}, ${start})

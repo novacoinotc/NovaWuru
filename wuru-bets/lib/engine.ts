@@ -75,12 +75,25 @@ export async function placeBets(
   const now = Date.now();
   for (let i = 0; i < uniqPreds.length; i++) {
     const p = uniqPreds[i];
-    const kickoff = p.kickoff ? new Date(p.kickoff) : new Date(now + (1 + i * 0.4) * 86400000);
+    const entry = findEntry(oddsList, p.home, p.away);
+    // fecha/hora REAL del partido (de los momios); si no, estimada
+    const kickoff = entry?.kickoff ? new Date(entry.kickoff) : (p.kickoff ? new Date(p.kickoff) : new Date(now + (1 + i * 0.4) * 86400000));
     await sql`insert into matches (ext_id, sport, league, home, away, kickoff, status)
       values (${p.id}, ${p.sport}, ${p.league}, ${p.home}, ${p.away}, ${kickoff}, 'scheduled')
       on conflict (ext_id) do update set kickoff=excluded.kickoff`;
     const matchId = (await sql`select id from matches where ext_id=${p.id}`)[0].id;
-    const entry = findEntry(oddsList, p.home, p.away);
+
+    // guarda la SIMULACIÓN (quién gana según el modelo) para mostrarla separada de las apuestas
+    const x1 = p.markets.filter((m) => m.market === "1X2");
+    if (x1.length === 3 && entry) {
+      const ph = x1.find((m) => m.selection === p.home)?.prob ?? 0;
+      const pd = x1.find((m) => m.selection === "Empate")?.prob ?? 0;
+      const pa = x1.find((m) => m.selection === p.away)?.prob ?? 0;
+      const fav = ph >= pd && ph >= pa ? p.home : pa >= pd ? p.away : "Empate";
+      await sql`insert into predictions (match_id, league, home, away, kickoff, p_home, p_draw, p_away, fav, fav_prob, updated_at)
+        values (${matchId}, ${p.league}, ${p.home}, ${p.away}, ${kickoff}, ${ph}, ${pd}, ${pa}, ${fav}, ${Math.max(ph, pd, pa)}, now())
+        on conflict (match_id) do update set p_home=excluded.p_home, p_draw=excluded.p_draw, p_away=excluded.p_away, fav=excluded.fav, fav_prob=excluded.fav_prob, kickoff=excluded.kickoff, updated_at=now()`;
+    }
 
     const haveReal = oddsList.length > 0;
     // agrupar por mercado para poder de-viguear (quitar margen) cada mercado completo
