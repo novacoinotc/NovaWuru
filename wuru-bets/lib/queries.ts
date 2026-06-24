@@ -18,7 +18,7 @@ export async function getOpenBets(): Promise<Bet[]> {
   return (await sql`
     select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
     from bets b left join matches m on m.id = b.match_id
-    where b.status = 'open'
+    where b.status = 'open' and b.market != 'Soñadora'
     order by b.edge desc
   `) as unknown as Bet[];
 }
@@ -27,10 +27,34 @@ export async function getSettledBets(): Promise<Bet[]> {
   return (await sql`
     select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
     from bets b left join matches m on m.id = b.match_id
-    where b.status in ('won','lost','void')
+    where b.status in ('won','lost','void') and b.market != 'Soñadora' and coalesce(b.odds_source,'') != 'dream'
     order by b.settled_at desc nulls last
     limit 200
   `) as unknown as Bet[];
+}
+
+export type Dream = {
+  id: number; status: string; odds_taken: number; model_prob: number;
+  stake: number; potential_return: number; result_pnl: number | null;
+  legs: { home: string; away: string; selection: string; odds: number; prob: number; status: string }[];
+};
+
+export async function getDreamBets(): Promise<Dream[]> {
+  const dreams = (await sql`
+    select id, status, odds_taken, model_prob, stake, potential_return, result_pnl
+    from bets where market='Soñadora' order by (status='open') desc, id desc limit 50
+  `) as any[];
+  const out: Dream[] = [];
+  for (const d of dreams) {
+    const legs = (await sql`
+      select coalesce(m.home,'?') as home, coalesce(m.away,'') as away,
+             b.selection, b.odds_taken as odds, b.model_prob as prob, b.status
+      from parlay_legs pl join bets b on b.id = pl.leg_bet_id
+      left join matches m on m.id = b.match_id
+      where pl.parlay_id = ${d.id} order by b.id`) as any[];
+    out.push({ ...d, legs } as Dream);
+  }
+  return out;
 }
 
 export async function getHistory() {

@@ -7,6 +7,14 @@ const W_MODEL = 0.30;   // peso de nuestro modelo; 0.70 al mercado (de-vig)
 const EDGE_CAP = 0.15;  // edge > 15% casi siempre es error del modelo, no valor real
 const MAX_ODDS = 7.0;   // evita longshots donde domina el error del modelo
 
+// ===== Apuestas Soñadoras (billete de loteria con cabeza) =====
+const DREAM_MIN_P = Number(process.env.DREAM_MIN_PROB || 0.45);  // legs de prob media-alta...
+const DREAM_MAX_P = Number(process.env.DREAM_MAX_PROB || 0.72);  // ...pero no casi-seguras (pagan poco)
+const DREAM_STAKE = Number(process.env.DREAM_STAKE || 100);      // monto fijo minimo
+const DREAM_MULT_MIN = Number(process.env.DREAM_MULT_MIN || 7);  // multiplicador combinado minimo
+const DREAM_MAX_LEGS = Number(process.env.DREAM_MAX_LEGS || 6);
+const DREAM_MAX_OPEN = Number(process.env.DREAM_MAX_OPEN || 2);  // cuantas soñadoras abiertas a la vez
+
 export type Pred = {
   id: string; sport: string; league: string; home: string; away: string;
   kickoff?: string; markets: { market: string; selection: string; prob: number }[];
@@ -46,11 +54,18 @@ export async function placeBets(
   const starting = Number(b?.starting ?? 100000);
   if (opts.reset) await sql`update bankroll set current=${starting} where id=1`;
 
+  // dedup: mismo partido puede venir con varios IDs (archivos viejos _GLM, etc.) -> 1 solo por fixture
+  const fxKey = (h: string, a: string) => (h + "|" + a).toLowerCase().normalize("NFD").replace(/[^a-z0-9|]/g, "");
+  const seenFx = new Set<string>();
+  const uniqPreds = preds.filter((p) => { const k = fxKey(p.home, p.away); if (seenFx.has(k)) return false; seenFx.add(k); return true; });
+
   let placed = 0, exposure = 0;
   const placedBets: { id: number; prob: number; odds: number; matchId: number; source: string }[] = [];
+  // candidatos para Apuestas Soñadoras: mejor leg 1X2 (prob media-alta) por partido
+  const dreamCands: { matchId: number; fx: string; selection: string; prob: number; odds: number }[] = [];
   const now = Date.now();
-  for (let i = 0; i < preds.length; i++) {
-    const p = preds[i];
+  for (let i = 0; i < uniqPreds.length; i++) {
+    const p = uniqPreds[i];
     const kickoff = p.kickoff ? new Date(p.kickoff) : new Date(now + (1 + i * 0.4) * 86400000);
     await sql`insert into matches (ext_id, sport, league, home, away, kickoff, status)
       values (${p.id}, ${p.sport}, ${p.league}, ${p.home}, ${p.away}, ${kickoff}, 'scheduled')
@@ -68,6 +83,20 @@ export async function placeBets(
       const selOdds = sels.map((s) => realOdds(entry, market, s.selection, p.home, p.away));
       if (haveReal && selOdds.some((o) => o == null)) continue; // sin mercado real completo (p.ej. BTTS) -> saltar
       const marketProbs = haveReal && selOdds.length >= 2 ? devig(selOdds as number[]) : sels.map(() => null);
+
+      // === Soñadoras: registra el mejor leg 1X2 (prob media-alta) con momio real de este partido ===
+      if (market === "1X2" && haveReal) {
+        let best: { selection: string; prob: number; odds: number } | null = null;
+        for (let j = 0; j < sels.length; j++) {
+          const mProb = marketProbs[j];
+          const eff = mProb != null ? W_MODEL * Number(sels[j].prob) + (1 - W_MODEL) * mProb : Number(sels[j].prob);
+          const o = selOdds[j] as number;
+          if (eff >= DREAM_MIN_P && eff <= DREAM_MAX_P && o >= 1.4 && o <= 3.2) {
+            if (!best || eff > best.prob) best = { selection: sels[j].selection, prob: eff, odds: o };
+          }
+        }
+        if (best) dreamCands.push({ matchId, fx: fxKey(p.home, p.away), ...best });
+      }
 
       for (let j = 0; j < sels.length; j++) {
         const model = Number(sels[j].prob);
@@ -112,9 +141,42 @@ export async function placeBets(
       }
     }
   }
+  // ===== APUESTAS SOÑADORAS: longshot de varios partidos, stake fijo chico, multiplicador alto =====
+  let dreams = 0;
+  const openDreams = Number((await sql`select count(*) c from bets where market='Soñadora' and status='open'`)[0].c);
+  if (openDreams < DREAM_MAX_OPEN) {
+    // legs de prob media-alta, una por partido, las mas probables primero
+    const cands = dreamCands.sort((a, b) => b.prob - a.prob);
+    const dlegs: typeof cands = [];
+    const seen = new Set<string>();
+    let codds = 1;
+    for (const c of cands) {
+      if (seen.has(c.fx)) continue; // una leg por partido (dedup por fixture)
+      dlegs.push(c); seen.add(c.fx); codds *= c.odds;
+      if (dlegs.length >= DREAM_MAX_LEGS) break;
+      if (dlegs.length >= 4 && codds >= DREAM_MULT_MIN) break; // ya multiplica suficiente
+    }
+    const cprob = dlegs.reduce((a, b) => a * b.prob, 1);
+    // firma para no duplicar la misma soñadora en re-corridas
+    const sig = dlegs.map((l) => `${l.matchId}:${l.selection}`).sort().join("|");
+    const exists = sig ? await sql`select 1 from bets where market='Soñadora' and selection=${sig} and status='open' limit 1` : [{}];
+    if (dlegs.length >= 4 && codds >= DREAM_MULT_MIN && cprob >= 0.03 && (!sig || !exists.length)) {
+      const cret = Math.round(DREAM_STAKE * (codds - 1));
+      const dins = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
+        values (${null}, 'Soñadora', ${sig}, ${cprob}, ${Math.round(codds * 100) / 100}, ${1 / codds}, ${cprob * codds - 1}, ${DREAM_STAKE}, ${cret}, ${Math.round(codds * 100) / 100}, 'real', 'open') returning id`;
+      // legs como filas 'leg' (stake 0, no son posiciones) para poder liquidarlas
+      for (const l of dlegs) {
+        const li = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
+          values (${l.matchId}, '1X2', ${l.selection}, ${l.prob}, ${l.odds}, ${1 / l.odds}, 0, 0, 0, ${l.odds}, 'dream', 'leg') returning id`;
+        await sql`insert into parlay_legs (parlay_id, leg_bet_id) values (${Number(dins[0].id)}, ${Number(li[0].id)})`;
+      }
+      placed++; exposure += DREAM_STAKE; dreams++;
+    }
+  }
+
   // saldo disponible = inicial - exposición abierta + retornos liquidados
   const realized = (await sql`select coalesce(sum(case when status='won' then potential_return when status='lost' then -stake else 0 end),0) as r from bets`)[0].r;
   const openExp = (await sql`select coalesce(sum(stake),0) as e from bets where status='open'`)[0].e;
   await sql`update bankroll set current=${starting - Number(openExp) + Number(realized)}, updated_at=now() where id=1`;
-  return { placed, exposure, matches: preds.length };
+  return { placed, exposure, matches: preds.length, dreams };
 }

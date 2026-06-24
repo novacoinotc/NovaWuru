@@ -1,4 +1,4 @@
-import { getBankroll, getOpenBets, getSettledBets, getHistory, kpis } from "@/lib/queries";
+import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, kpis } from "@/lib/queries";
 import { fmtMXN } from "@/lib/betting";
 import BankrollChart from "@/components/BankrollChart";
 
@@ -16,11 +16,11 @@ function Stat({ label, value, sub, tone }: { label: string; value: string; sub?:
 }
 
 export default async function Dashboard() {
-  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [];
+  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [];
   let dbError = "";
   try {
     bankroll = await getBankroll();
-    [open, settled, history] = await Promise.all([getOpenBets(), getSettledBets(), getHistory()]);
+    [open, settled, history, dreams] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets()]);
   } catch (e) {
     dbError = (e as Error).message;
   }
@@ -90,6 +90,37 @@ export default async function Dashboard() {
             {open.length === 0 && <tr><td colSpan={9} style={{ color: "var(--muted)" }}>Sin posiciones abiertas. Corre el análisis diario.</td></tr>}
           </tbody>
         </table>
+      </section>
+
+      <section className="card p-4 mb-6">
+        <h2 className="font-semibold mb-1">🎰 Apuestas Soñadoras <span className="chip">$100 fijo · alto multiplicador</span></h2>
+        <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Billete de lotería con cabeza: combina selecciones de prob media-alta de varios partidos. Stake mínimo, premio grande.</p>
+        {dreams.length === 0 && <div style={{ color: "var(--muted)", fontSize: 13 }}>Aún no hay soñadoras (se arman cuando hay ≥4 legs de prob media-alta con multiplicador ≥7x).</div>}
+        <div className="grid md:grid-cols-2 gap-3">
+          {dreams.map((d) => (
+            <div key={d.id} className="card p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: "var(--green)" }}>{Number(d.odds_taken).toFixed(1)}x</span>
+                  <span style={{ color: "var(--muted)", fontSize: 12, marginLeft: 8 }}>prob {pct(Number(d.model_prob))} · {d.legs.length} legs</span>
+                </div>
+                <span className="chip" style={{ color: d.status === "won" ? "var(--green)" : d.status === "lost" ? "var(--red)" : "var(--muted)" }}>{d.status === "open" ? "vigente" : d.status}</span>
+              </div>
+              <div style={{ fontSize: 13, marginBottom: 8 }}>
+                Stake <b>{fmtMXN(Number(d.stake))}</b> → gana <b className="pos">{fmtMXN(Number(d.stake) + Number(d.potential_return))}</b>
+              </div>
+              <table><tbody>
+                {d.legs.map((l, i) => (
+                  <tr key={i}>
+                    <td style={{ fontSize: 12 }}>{l.home} vs {l.away}</td>
+                    <td style={{ fontSize: 12 }}><b>{l.selection}</b> @ {Number(l.odds).toFixed(2)}</td>
+                    <td style={{ fontSize: 12 }}><span className="chip" style={{ color: l.status === "won" ? "var(--green)" : l.status === "lost" ? "var(--red)" : "var(--muted)" }}>{l.status === "leg" || l.status === "open" ? "pend" : l.status}</span></td>
+                  </tr>
+                ))}
+              </tbody></table>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="card p-4 overflow-x-auto">

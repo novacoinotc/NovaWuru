@@ -30,11 +30,15 @@ async function main() {
     const r = results[key];
     if (!r) continue;
     await sql`update matches set status='finished', home_goals=${r.hg}, away_goals=${r.ag} where id=${m.id}`;
-    const bets = (await sql`select * from bets where match_id=${m.id} and status='open'`) as any[];
-    // resolver parleys aparte (sus legs estan en otra tabla)
+    const bets = (await sql`select * from bets where match_id=${m.id} and status in ('open','leg')`) as any[];
+    // resolver parleys/soñadoras aparte (sus legs estan en otra tabla)
     for (const bt of bets) {
-      if (bt.market === "Parlay") continue; // se liquidan abajo
+      if (bt.market === "Parlay" || bt.market === "Soñadora") continue; // se liquidan abajo
       const won = grade(bt.market, bt.selection, m.home, m.away, r.hg, r.ag);
+      if (bt.status === "leg") { // leg de soñadora: solo marca resultado, sin mover saldo
+        await sql`update bets set status=${won ? "won" : "lost"}, settled_at=now() where id=${bt.id}`;
+        continue;
+      }
       const pnl = won ? Number(bt.potential_return) : -Number(bt.stake);
       const back = won ? Number(bt.stake) + Number(bt.potential_return) : 0;
       const cv = clvCalc(Number(bt.odds_taken), Number(bt.closing_odds ?? bt.odds_taken));
@@ -46,18 +50,18 @@ async function main() {
     }
   }
 
-  // Parleys: ganan solo si TODAS sus legs ganaron; pierden si alguna pierde; pendientes si falta liquidar legs
-  const parlays = (await sql`select * from bets where market='Parlay' and status='open'`) as any[];
+  // Parleys y Soñadoras: ganan solo si TODAS sus legs ganaron; pierden si alguna pierde; pendientes si falta liquidar legs
+  const parlays = (await sql`select * from bets where market in ('Parlay','Soñadora') and status='open'`) as any[];
   for (const p of parlays) {
     const legs = (await sql`select b.status from parlay_legs pl join bets b on b.id=pl.leg_bet_id where pl.parlay_id=${p.id}`) as any[];
-    if (legs.some((l) => l.status === "open")) continue; // aun pendiente
+    if (!legs.length || legs.some((l) => l.status === "open" || l.status === "leg")) continue; // aun pendiente
     const won = legs.every((l) => l.status === "won");
     const pnl = won ? Number(p.potential_return) : -Number(p.stake);
     const back = won ? Number(p.stake) + Number(p.potential_return) : 0;
     await sql`update bets set status=${won ? "won" : "lost"}, result_pnl=${pnl}, settled_at=now() where id=${p.id}`;
     await sql`update bankroll set current = current + ${back}, updated_at=now() where id=1`;
     const cur = (await sql`select current from bankroll where id=1`)[0].current;
-    await sql`insert into bankroll_history (balance, note) values (${cur}, ${"Parlay x" + legs.length})`;
+    await sql`insert into bankroll_history (balance, note) values (${cur}, ${(p.market === "Soñadora" ? "🎰 Soñadora x" : "Parlay x") + legs.length})`;
     settled++; pnlTotal += pnl;
   }
   console.log(`✅ Liquidadas ${settled} apuestas. P&L: ${pnlTotal.toFixed(0)} MXN`);
