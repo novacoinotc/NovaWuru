@@ -64,12 +64,21 @@ def get_xi(team, opp, ctx):
     return parse_json(glm(p))[:11]
 
 def get_twin(name, pos, team, opp, ctx):
-    p = (f"Investiga EXHAUSTIVAMENTE (web search) a {name} ({pos}) de {team}, vs {opp}. {ctx}\n"
-         f"Vida, familia, forma, lesiones, fisico, estado de hoy. Traduce a atributos y escribe monologo interior.\n"
+    p = (f"Eres un analista de scouting de élite. Investiga EXHAUSTIVAMENTE con WEB SEARCH a {name} ({pos}) de {team}, "
+         f"de cara al partido vs {opp}. {ctx}\n\n"
+         f"Haz MÚLTIPLES búsquedas y profundiza en TODO:\n"
+         f"1) FORMA RECIENTE: rendimiento en sus últimos 5-10 partidos (goles, asistencias, minutos, rating), club y selección.\n"
+         f"2) FÍSICO/LESIONES: estado físico actual, lesiones recientes o molestias, minutos acumulados, fatiga, riesgo.\n"
+         f"3) DATOS REALES: edad exacta, estatura, velocidad punta, pierna hábil, rol táctico específico.\n"
+         f"4) VIDA Y PSICOLOGÍA: familia (pareja, hijos), origen, historia personal, presión mediática, motivación hoy, estado emocional.\n"
+         f"5) MENTALIDAD: temple bajo presión, historial en partidos grandes/clutch, disciplina (tarjetas), consistencia.\n\n"
+         f"Traduce TODO a los atributos numéricos (fundamentados en lo que encontraste, no inventes). "
+         f"Escribe un MONÓLOGO INTERIOR largo y vívido (250+ palabras, en primera persona) que capture su cabeza HOY. "
+         f"En 'sources' lista las URLs/medios reales que consultaste.\n\n"
          f"Responde SOLO JSON: {TWIN}. Sin texto extra.")
     for attempt in range(2):  # reintento si el JSON viene mal
         try:
-            t = parse_json(glm(p, max_tokens=2200)); t["name"] = t.get("name", name); t["position"] = t.get("position", pos)
+            t = parse_json(glm(p, max_tokens=4200)); t["name"] = t.get("name", name); t["position"] = t.get("position", pos)
             return t
         except Exception:
             if attempt == 1: raise

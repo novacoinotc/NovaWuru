@@ -114,8 +114,9 @@ def main():
         meta = {"id": mk_id(m["home"], m["away"], taken), "home": m["home"], "away": m["away"],
                 "group": "", "venue": m["league"].replace("soccer_","").replace("_"," ").title(),
                 "host": m["home"] if m["home"].lower() in HOSTS else (m["away"] if m["away"].lower() in HOSTS else "")}
-        if os.path.exists(os.path.join(ROOT, f"match_{meta['id']}.json")):
-            print(f"  ↺ {meta['id']} ya investigado (reuso)"); continue  # cache: no re-gastar GLM
+        mf = os.path.join(ROOT, f"match_{meta['id']}.json")
+        if os.path.exists(mf) and os.path.getsize(mf) > 64_000:  # reusa SOLO si ya es profundo (GLM-deep ~69KB+)
+            print(f"  ↺ {meta['id']} ya investigado a profundidad (reuso)"); continue
         try: research_match(meta)
         except Exception as e: print(f"  ⚠️ {meta['id']}: {e}")
     print(f"   GLM total: {USAGE['calls']} calls | {USAGE['in']:,} in | {USAGE['out']:,} out")
