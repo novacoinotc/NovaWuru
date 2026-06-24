@@ -18,7 +18,7 @@ export async function getOpenBets(): Promise<Bet[]> {
   return (await sql`
     select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
     from bets b left join matches m on m.id = b.match_id
-    where b.status = 'open' and b.market != 'Soñadora'
+    where b.status = 'open' and b.market not in ('Soñadora','Parlay')
     order by b.edge desc
   `) as unknown as Bet[];
 }
@@ -27,7 +27,7 @@ export async function getSettledBets(): Promise<Bet[]> {
   return (await sql`
     select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
     from bets b left join matches m on m.id = b.match_id
-    where b.status in ('won','lost','void') and b.market != 'Soñadora' and coalesce(b.odds_source,'') != 'dream'
+    where b.status in ('won','lost','void') and b.market not in ('Soñadora','Parlay') and coalesce(b.odds_source,'') != 'dream'
     order by b.settled_at desc nulls last
     limit 200
   `) as unknown as Bet[];
@@ -39,10 +39,10 @@ export type Dream = {
   legs: { home: string; away: string; selection: string; odds: number; prob: number; status: string }[];
 };
 
-export async function getDreamBets(): Promise<Dream[]> {
+async function fetchParlays(market: string): Promise<Dream[]> {
   const dreams = (await sql`
     select id, status, odds_taken, model_prob, stake, potential_return, result_pnl, odds_source
-    from bets where market='Soñadora' order by (status='open') desc, id desc limit 50
+    from bets where market=${market} order by (status='open') desc, id desc limit 50
   `) as any[];
   const out: Dream[] = [];
   for (const d of dreams) {
@@ -56,6 +56,9 @@ export async function getDreamBets(): Promise<Dream[]> {
   }
   return out;
 }
+
+export async function getDreamBets(): Promise<Dream[]> { return fetchParlays("Soñadora"); }
+export async function getSmartParlays(): Promise<Dream[]> { return fetchParlays("Parlay"); }
 
 export async function getHistory() {
   return (await sql`select ts, balance from bankroll_history order by ts asc`) as unknown as {

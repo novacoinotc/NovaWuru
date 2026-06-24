@@ -15,7 +15,7 @@ const DREAM_MIN_P = Number(process.env.DREAM_MIN_PROB || 0.45);  // legs de prob
 const DREAM_MAX_P = Number(process.env.DREAM_MAX_PROB || 0.72);  // ...pero no casi-seguras (pagan poco)
 const DREAM_STAKE = Number(process.env.DREAM_STAKE || 100);      // monto fijo minimo
 const DREAM_MULT_MIN = Number(process.env.DREAM_MULT_MIN || 7);  // multiplicador combinado minimo
-const DREAM_MAX_LEGS = Number(process.env.DREAM_MAX_LEGS || 6);
+const DREAM_MAX_LEGS = Number(process.env.DREAM_MAX_LEGS || 10);
 
 export type Pred = {
   id: string; sport: string; league: string; home: string; away: string;
@@ -141,42 +141,53 @@ export async function placeBets(
     }
   }
 
-  // ===== PARLEYS: combina las legs mas seguras (prob alta) de partidos DISTINTOS =====
-  const safe = placedBets.filter((b) => b.source === "real" && b.prob >= 0.55).sort((a, b) => b.prob - a.prob);
-  const seenM = new Set<number>(); const legs: typeof safe = [];
-  for (const b of safe) { if (!seenM.has(b.matchId)) { seenM.add(b.matchId); legs.push(b); } if (legs.length >= 3) break; }
-  if (legs.length >= 2) {
-    const codds = legs.reduce((a, b) => a * b.odds, 1);
-    const cprob = legs.reduce((a, b) => a * b.prob, 1);
-    const pev = cprob * codds - 1;
-    if (pev > 0) {
-      const pstake = Math.min(Math.round(starting * 0.01), stakeFor(starting, cprob, codds, { fraction: FRAC, maxPct: 0.01 }));
-      if (pstake >= 50) {
-        const pret = Math.round(pstake * (codds - 1));
-        const pins = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
-          values (${null}, 'Parlay', ${legs.length + " legs seguras"}, ${cprob}, ${Math.round(codds * 100) / 100}, ${1 / codds}, ${pev}, ${pstake}, ${pret}, ${Math.round(codds * 100) / 100}, 'real', 'open') returning id`;
-        for (const l of legs) await sql`insert into parlay_legs (parlay_id, leg_bet_id) values (${Number(pins[0].id)}, ${l.id})`;
-        placed++; exposure += pstake;
+  // ===== PARLEY INTELIGENTE: combina nuestras apuestas de VALOR (+EV) de partidos DISTINTOS =====
+  // Cada leg ya tiene valor (prob*momio>1) -> el parley es +EV. Mas pago, mas varianza. Stake chico.
+  const openParlays = Number((await sql`select count(*) c from bets where market='Parlay' and status='open'`)[0].c);
+  if (openParlays < 1) {
+    const cand = placedBets.filter((b) => b.source === "real").sort((a, b) => b.prob - a.prob); // las mas probables primero
+    const seenM = new Set<number>(); const legs: typeof cand = []; let cp = 1;
+    for (const b of cand) {
+      if (seenM.has(b.matchId)) continue;
+      if (legs.length >= 2 && cp * b.prob < 0.10) break; // no bajar de 10% de chance combinada (que sea "inteligente")
+      seenM.add(b.matchId); legs.push(b); cp *= b.prob;
+      if (legs.length >= 3) break; // max 3 legs para mantener chance real de pegar
+    }
+    if (legs.length >= 2) {
+      const codds = legs.reduce((a, b) => a * b.odds, 1);
+      const cprob = legs.reduce((a, b) => a * b.prob, 1);
+      const pev = cprob * codds - 1; // >0 por construccion (cada leg es +EV)
+      const sig = legs.map((l) => l.id).sort().join("|");
+      const exists = await sql`select 1 from bets where market='Parlay' and selection=${sig} and status='open' limit 1`;
+      if (pev > 0 && !exists.length) {
+        const pstake = Math.min(Math.round(starting * 0.005), stakeFor(starting, cprob, codds, { fraction: FRAC, maxPct: 0.005 }));
+        if (pstake >= 50) {
+          const pret = Math.round(pstake * (codds - 1));
+          const pins = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
+            values (${null}, 'Parlay', ${sig}, ${cprob}, ${Math.round(codds * 100) / 100}, ${1 / codds}, ${pev}, ${pstake}, ${pret}, ${Math.round(codds * 100) / 100}, 'real', 'open') returning id`;
+          for (const l of legs) await sql`insert into parlay_legs (parlay_id, leg_bet_id) values (${Number(pins[0].id)}, ${l.id})`;
+          placed++; exposure += pstake;
+        }
       }
     }
   }
   // ===== APUESTAS SOÑADORAS: 2 versiones ($100 c/u) para comparar VALOR (+EV) vs FAVORITOS (lotería) =====
   let dreams = 0;
   // arma una soñadora de un set de candidatos ya ordenados; type: 'dream_value' | 'dream_fav'
-  async function buildDream(type: string, ordered: typeof dreamCands, minLegs: number, minCombo: number) {
+  async function buildDream(type: string, ordered: typeof dreamCands, acceptMin: number, targetMult: number, minMult: number, minCombo: number) {
     const open = Number((await sql`select count(*) c from bets where market='Soñadora' and odds_source=${type} and status='open'`)[0].c);
     if (open >= 1) return; // 1 de cada tipo a la vez
     const dlegs: typeof dreamCands = []; const seen = new Set<string>(); let codds = 1;
     for (const c of ordered) {
       if (seen.has(c.fx)) continue;            // una leg por partido
       dlegs.push(c); seen.add(c.fx); codds *= c.odds;
-      if (dlegs.length >= DREAM_MAX_LEGS) break;
-      if (dlegs.length >= minLegs && codds >= DREAM_MULT_MIN) break;
+      if (dlegs.length >= DREAM_MAX_LEGS) break;          // tope (hasta 10)
+      if (dlegs.length >= acceptMin && codds >= targetMult) break; // ya alcanzó el multiplicador objetivo
     }
     const cprob = dlegs.reduce((a, b) => a * b.prob, 1);
     const sig = dlegs.map((l) => `${l.matchId}:${l.selection}`).sort().join("|");
     const exists = sig ? await sql`select 1 from bets where market='Soñadora' and odds_source=${type} and selection=${sig} and status='open' limit 1` : [{}];
-    if (dlegs.length < minLegs || codds < DREAM_MULT_MIN || cprob < minCombo || (sig && exists.length)) return;
+    if (dlegs.length < acceptMin || codds < minMult || cprob < minCombo || (sig && exists.length)) return;
     const cret = Math.round(DREAM_STAKE * (codds - 1));
     const dins = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
       values (${null}, 'Soñadora', ${sig}, ${cprob}, ${Math.round(codds * 100) / 100}, ${1 / codds}, ${cprob * codds - 1}, ${DREAM_STAKE}, ${cret}, ${Math.round(codds * 100) / 100}, ${type}, 'open') returning id`;
@@ -187,13 +198,12 @@ export async function placeBets(
     }
     placed++; exposure += DREAM_STAKE; dreams++;
   }
-  // VALOR: legs con edge>3% (el modelo les da mas prob que el mercado), las de mayor edge primero.
-  // Son underdogs -> multiplican rapido -> min 2 legs y prob combinada baja permitida (loteria +EV).
+  // VALOR: legs con edge>3% (+EV), las de mayor edge primero. Son underdogs -> multiplican rapido.
   const valLegs = dreamCands.filter((c) => c.edge >= 0.03 && c.prob >= 0.15).sort((a, b) => b.edge - a.edge);
-  await buildDream("dream_value", valLegs, 2, 0.008);
-  // FAVORITOS: legs de prob media-alta, las mas probables primero (loteria -EV pero "se siente seguro").
+  await buildDream("dream_value", valLegs, 2, 20, 4, 0.005);   // 2-10 legs, objetivo ~20x
+  // FAVORITOS: legs de prob media-alta, las mas probables primero. Loteria GRANDE (hasta 10 legs).
   const favLegs = dreamCands.filter((c) => c.prob >= DREAM_MIN_P && c.prob <= DREAM_MAX_P && c.odds <= 3.2).sort((a, b) => b.prob - a.prob);
-  await buildDream("dream_fav", favLegs, 4, 0.03);
+  await buildDream("dream_fav", favLegs, 3, 80, 7, 0.0005);    // 3-10 legs, objetivo ~80x (billete grande)
 
   // saldo disponible = inicial - exposición abierta + retornos liquidados
   const realized = (await sql`select coalesce(sum(case when status='won' then potential_return when status='lost' then -stake else 0 end),0) as r from bets`)[0].r;

@@ -1,4 +1,4 @@
-import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, getPredictions, kpis } from "@/lib/queries";
+import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, getSmartParlays, getPredictions, kpis } from "@/lib/queries";
 import { fmtMXN } from "@/lib/betting";
 import BankrollChart from "@/components/BankrollChart";
 
@@ -21,11 +21,11 @@ function Stat({ label, value, sub, tone }: { label: string; value: string; sub?:
 }
 
 export default async function Dashboard() {
-  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [], preds: Awaited<ReturnType<typeof getPredictions>> = [];
+  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [], smart: Awaited<ReturnType<typeof getSmartParlays>> = [], preds: Awaited<ReturnType<typeof getPredictions>> = [];
   let dbError = "";
   try {
     bankroll = await getBankroll();
-    [open, settled, history, dreams, preds] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets(), getPredictions()]);
+    [open, settled, history, dreams, smart, preds] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets(), getSmartParlays(), getPredictions()]);
   } catch (e) {
     dbError = (e as Error).message;
   }
@@ -120,6 +120,35 @@ export default async function Dashboard() {
             {open.length === 0 && <tr><td colSpan={10} style={{ color: "var(--muted)" }}>Sin posiciones abiertas. Corre el análisis diario.</td></tr>}
           </tbody>
         </table>
+      </section>
+
+      <section className="card p-4 mb-6">
+        <h2 className="font-semibold mb-1">🎯 Parleys Inteligentes <span className="chip">value · +EV</span></h2>
+        <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Combina nuestras <b>apuestas de valor</b> (cada una +EV) de partidos distintos. Más pago que las individuales, con stake moderado. Rentable a la larga, mayor varianza.</p>
+        {smart.length === 0 && <div style={{ color: "var(--muted)", fontSize: 13 }}>Sin parley inteligente hoy (se arma cuando hay ≥2 apuestas de valor en partidos distintos).</div>}
+        <div className="grid md:grid-cols-2 gap-3">
+          {smart.map((d) => (
+            <div key={d.id} className="card p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: "var(--green)" }}>{Number(d.odds_taken).toFixed(2)}x</span>
+                  <span style={{ color: "var(--muted)", fontSize: 12, marginLeft: 8 }}>prob {pct(Number(d.model_prob))} · {d.legs.length} legs</span>
+                </div>
+                <span className="chip" style={{ color: d.status === "won" ? "var(--green)" : d.status === "lost" ? "var(--red)" : "var(--muted)" }}>{d.status === "open" ? "vigente" : d.status}</span>
+              </div>
+              <div style={{ fontSize: 13, marginBottom: 8 }}>Stake <b>{fmtMXN(Number(d.stake))}</b> → gana <b className="pos">{fmtMXN(Number(d.stake) + Number(d.potential_return))}</b></div>
+              <table><tbody>
+                {d.legs.map((l, i) => (
+                  <tr key={i}>
+                    <td style={{ fontSize: 12 }}>{l.home} vs {l.away}</td>
+                    <td style={{ fontSize: 12 }}><b>{l.selection}</b> @ {Number(l.odds).toFixed(2)}</td>
+                    <td style={{ fontSize: 12 }}><span className="chip" style={{ color: l.status === "won" ? "var(--green)" : l.status === "lost" ? "var(--red)" : "var(--muted)" }}>{l.status === "open" || l.status === "leg" ? "pend" : l.status}</span></td>
+                  </tr>
+                ))}
+              </tbody></table>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="card p-4 mb-6">
