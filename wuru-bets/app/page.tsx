@@ -101,6 +101,7 @@ export default async function Dashboard() {
             <div key={d.id} className="card p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
               <div className="flex items-center justify-between mb-2">
                 <div>
+                  <span className="chip" style={{ color: d.odds_source === "dream_value" ? "var(--green)" : "var(--muted)", marginRight: 8 }}>{d.odds_source === "dream_value" ? "💎 VALOR (+EV)" : "🎲 FAVORITOS"}</span>
                   <span style={{ fontSize: 22, fontWeight: 800, color: "var(--green)" }}>{Number(d.odds_taken).toFixed(1)}x</span>
                   <span style={{ color: "var(--muted)", fontSize: 12, marginLeft: 8 }}>prob {pct(Number(d.model_prob))} · {d.legs.length} legs</span>
                 </div>

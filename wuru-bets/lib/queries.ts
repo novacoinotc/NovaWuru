@@ -35,13 +35,13 @@ export async function getSettledBets(): Promise<Bet[]> {
 
 export type Dream = {
   id: number; status: string; odds_taken: number; model_prob: number;
-  stake: number; potential_return: number; result_pnl: number | null;
+  stake: number; potential_return: number; result_pnl: number | null; odds_source: string;
   legs: { home: string; away: string; selection: string; odds: number; prob: number; status: string }[];
 };
 
 export async function getDreamBets(): Promise<Dream[]> {
   const dreams = (await sql`
-    select id, status, odds_taken, model_prob, stake, potential_return, result_pnl
+    select id, status, odds_taken, model_prob, stake, potential_return, result_pnl, odds_source
     from bets where market='Soñadora' order by (status='open') desc, id desc limit 50
   `) as any[];
   const out: Dream[] = [];
