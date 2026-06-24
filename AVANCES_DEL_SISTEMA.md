@@ -179,3 +179,84 @@ npm run start                             # http://localhost:3000
 
 ---
 *Documento de avances generado el 23-jun-2026. Preserva el estado completo del sistema Wuru: modelo predictivo (validado, calibrado, ~75% acierto), proyección de torneo, bracket visual, y sistema de apuestas con paper trading (Next.js + Neon, probado en local). Acompaña a `estrategia de analisis.md`.*
+
+---
+---
+
+# 🚀 ACTUALIZACIÓN MAYOR (24-jun-2026) — Sistema de apuestas EN PRODUCCIÓN
+
+> Desde la última versión se construyó, conectó y **desplegó** el sistema completo de apuestas con datos reales. Esto es el estado actual operativo.
+
+## A. App de apuestas `wuru-bets/` — DESPLEGADA
+- **EN VIVO:** https://nova-wuru.vercel.app (Vercel) + **Neon Postgres** (DB).
+- **GitHub:** https://github.com/novacoinotc/NovaWuru (rama `main`, PÚBLICO). Autenticado como `novacoinotc`.
+- **Stack:** Next.js 15.5 (App Router) + driver **@neondatabase/serverless** (prod) / postgres TCP (local Docker).
+- **Dashboard:** KPIs (P&L, ROI, yield, CLV, acierto, exposición), curva de saldo (recharts), posiciones abiertas (singles + parleys), liquidadas. Chips real/sint.
+- **Bankroll paper trading: 100,000 MXN.**
+
+## B. IA conectada (claves en `wuru-bets/.env`, gitignored — NUNCA subir)
+- **GLM 5.2 (plan Coding MAX, ~$150/mes):** `GLM_API_KEY=10d163...` · endpoint **Anthropic-compatible** `https://api.z.ai/api/anthropic` · modelo `glm-4.6` · **web search activo**. (OJO: el plan Coding NO sirve en el endpoint paas/v4 de tokens; solo en /anthropic.)
+- **The Odds API (plan FREE, 500 req/mes):** `ODDS_API_KEY=f0bb8d31...` · multi-liga vía `ODDS_SPORT_KEYS`.
+- **Neon DB:** `DATABASE_URL` (pooled, sslmode=require) — ya en Vercel (integración Neon Marketplace) y en .env local.
+- Claude: opcional (capa estrategia), sin key por ahora.
+
+## C. Pipeline de producción (archivos nuevos)
+| Archivo | Función |
+|---|---|
+| `glm_research.py` | Research paralelo con GLM (1 agente/jugador, 11v11 garantizado, ~2min/partido, ~300K tokens) |
+| `scanner.py` | **Escáner multi-liga**: analiza TODAS las ligas activas → scan rápido GLM (1 call/partido) → rankea por valor → top N → modelo completo a top N → acumula apuestas |
+| `orchestrator.py` | Variante: descubre por ventana de horas y corre el flujo |
+| `settle_auto.py` | Auto-liquidación: jala resultados reales (Odds API /scores) → `results.json` → liquida |
+| `export_predictions.py` | match_*.json → predictions.json (probs por mercado) |
+| `wuru-bets/lib/engine.ts` | `placeBets`: value finder + ¼ Kelly + **parleys** + dedup (mantiene momio temprano) |
+| `wuru-bets/lib/odds.ts` | momios reales multi-liga, mediana de casas, de-vig, match por nombre |
+| `wuru-bets/lib/betting.ts` | EV, Kelly, CLV, de-vig |
+| `wuru-bets/scripts/{dbinit,seed,accrue,settle}.ts` | init / sembrar(reset) / acumular(no reset) / liquidar |
+| `scheduler/` (launchd) | **3 escaneos/día (09/15/21) + liquidación 23:30**. `install.sh` los instala. |
+
+## D. Estrategia de apuestas (implementada)
+- **Mercados:** 1X2, Over/Under 2.5, BTTS + **parleys** (legs ≥55% prob, de partidos distintos, stake ≤1%).
+- **Valor:** prob efectiva = **30% modelo + 70% mercado** (de-vig). Apuesta solo si **EV ≥5%**, **edge ≤15%** (rechaza errores del modelo), **cuota ≤7**.
+- **Staking:** **¼ Kelly**, tope 3%/apuesta. **NUNCA Martingale.**
+- **Captura de momios tempranos:** ventana **5 días**, 3 scans/día, **dedup** (no re-apuesta lo ya abierto → conserva el momio temprano). Guarda apertura vs cierre → **CLV**.
+
+## E. Flujo diario automático
+```
+09:00/15:00/21:00 → scanner.py (todas las ligas → top 15 por valor → modelo completo → acumula en Neon)
+23:30 → settle_auto.py (resultados reales → liquida singles+parleys → saldo + CLV)
+Dashboard (Neon) actualizado en vivo
+```
+
+## F. Estado actual (corrida real de hoy)
+- Escaneó 15 partidos → top 6 → modelo completo → **5 apuestas de valor** (Mundial + Suecia 2ªdiv + China). Saldo ~96,792 MXN.
+
+## G. Bugs encontrados y arreglados (memoria)
+1. Orden de carga `.env` en scripts (importaba lib/db antes de cargar env → escribía en Docker). Fix: `lib/loadenv.ts` primero.
+2. Driver porsager `postgres` NO conecta a Neon (TLS TransformError). Fix: `@neondatabase/serverless`.
+3. Momios: orientación local/visitante invertida → cuota del equipo equivocado. Fix: match por nombre.
+4. Momios: "best price" capturaba outliers (edge falso 400%). Fix: **mediana** + de-vig + caps.
+5. Modelo subestima favoritos (vs mercado) → value finder ingenuo apostaba ruido. Fix: mezcla 70% mercado + topes.
+6. GLM JSON parse (array vs objeto) → jugadores perdidos. Fix: parse robusto + reintento + relleno (11v11 garantizado).
+7. **Vercel Root Directory** apunta al repo raíz (sin app) → git auto-deploy compila vacío (404). **PENDIENTE:** poner Root Directory = `wuru-bets` en Vercel Settings. Workaround: `cd wuru-bets && vercel --prod`.
+
+## H. Caveats honestos
+- **Volumen real bajo ahora** (Europa en receso hasta ~agosto): ~15 partidos/día. En agosto: 100-200/día → ahí sí 15 apuestas top.
+- **Odds API free (500/mes):** 3 scans/día multi-liga ~excede → para multi-scan real necesita **plan pago (~$30/mes)**.
+- **Córners/faltas/tarjetas:** NO modelados (el modelo simula goles); momios solo en plan pago. = v2.
+- **launchd** corre con la sesión de la Mac activa; para 24/7 sin Mac → servidor/cron en nube.
+- **CLV** validará la teoría de "momios mejores temprano" tras unos días de datos.
+
+## I. PRÓXIMO (idea del usuario): "Apuestas Soñadoras" 🎰
+- Parleys **longshot** de varios partidos, stake mínimo (~100 MXN), **multiplicador alto** (paga mucho).
+- Construir con análisis preciso: combinar selecciones con **probabilidad media-alta** (no basura) para que el combo tenga chance real pero pague grande. Tipo "billete de lotería con cabeza".
+- Pendiente: módulo `dream_parlay` (selecciona N legs de prob media-alta, stake fijo 100, separa del bankroll principal o lo marca como "soñadora").
+
+## J. Cómo retomar (post-compactación)
+- **Correr el día manual:** `cd "/Users/issacvm/Documents/Futbol Wuru" && python3 scanner.py 15` (necesita env de wuru-bets/.env).
+- **Liquidar:** `python3 settle_auto.py`.
+- **Deploy:** `cd wuru-bets && vercel --prod` (hasta arreglar Root Directory en Vercel).
+- **Dashboard:** https://nova-wuru.vercel.app
+- Claves en `wuru-bets/.env` (local, gitignored). Vercel ya tiene env vars de producción.
+
+---
+*Actualización 24-jun-2026: sistema de apuestas en producción (Vercel+Neon), GLM Max conectado, escáner multi-liga + parleys + auto-liquidación + scheduler diario. Pendiente: Root Directory en Vercel + módulo "apuestas soñadoras". Chat por compactarse — este doc preserva el estado completo.*
