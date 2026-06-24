@@ -30,6 +30,11 @@ async function main() {
     placed_at timestamptz default now(), settled_at timestamptz
   )`;
   await sql`alter table bets add column if not exists odds_source text default 'synthetic'`;
+  await sql`create table if not exists parlay_legs (
+    id serial primary key,
+    parlay_id int references bets(id),
+    leg_bet_id int references bets(id)
+  )`;
 
   const start = Number(process.env.BANKROLL_MXN || 100000);
   await sql`insert into bankroll (id, starting, current) values (1, ${start}, ${start})

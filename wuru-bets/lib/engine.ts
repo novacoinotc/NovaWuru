@@ -47,6 +47,7 @@ export async function placeBets(
   if (opts.reset) await sql`update bankroll set current=${starting} where id=1`;
 
   let placed = 0, exposure = 0;
+  const placedBets: { id: number; prob: number; odds: number; matchId: number; source: string }[] = [];
   const now = Date.now();
   for (let i = 0; i < preds.length; i++) {
     const p = preds[i];
@@ -83,9 +84,30 @@ export async function placeBets(
         const stake = stakeFor(starting, effProb, odds, { fraction: FRAC, maxPct: MAXPCT });
         if (stake < 50) continue;
         const ret = Math.round(stake * (odds - 1));
-        await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
-          values (${matchId}, ${market}, ${sels[j].selection}, ${effProb}, ${odds}, ${impliedProb(odds)}, ${edge}, ${stake}, ${ret}, ${odds}, ${source}, 'open')`;
+        const ins = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
+          values (${matchId}, ${market}, ${sels[j].selection}, ${effProb}, ${odds}, ${impliedProb(odds)}, ${edge}, ${stake}, ${ret}, ${odds}, ${source}, 'open') returning id`;
+        placedBets.push({ id: Number(ins[0].id), prob: effProb, odds, matchId, source });
         placed++; exposure += stake;
+      }
+    }
+  }
+
+  // ===== PARLEYS: combina las legs mas seguras (prob alta) de partidos DISTINTOS =====
+  const safe = placedBets.filter((b) => b.source === "real" && b.prob >= 0.55).sort((a, b) => b.prob - a.prob);
+  const seenM = new Set<number>(); const legs: typeof safe = [];
+  for (const b of safe) { if (!seenM.has(b.matchId)) { seenM.add(b.matchId); legs.push(b); } if (legs.length >= 3) break; }
+  if (legs.length >= 2) {
+    const codds = legs.reduce((a, b) => a * b.odds, 1);
+    const cprob = legs.reduce((a, b) => a * b.prob, 1);
+    const pev = cprob * codds - 1;
+    if (pev > 0) {
+      const pstake = Math.min(Math.round(starting * 0.01), stakeFor(starting, cprob, codds, { fraction: FRAC, maxPct: 0.01 }));
+      if (pstake >= 50) {
+        const pret = Math.round(pstake * (codds - 1));
+        const pins = await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status)
+          values (${null}, 'Parlay', ${legs.length + " legs seguras"}, ${cprob}, ${Math.round(codds * 100) / 100}, ${1 / codds}, ${pev}, ${pstake}, ${pret}, ${Math.round(codds * 100) / 100}, 'real', 'open') returning id`;
+        for (const l of legs) await sql`insert into parlay_legs (parlay_id, leg_bet_id) values (${Number(pins[0].id)}, ${l.id})`;
+        placed++; exposure += pstake;
       }
     }
   }

@@ -16,19 +16,19 @@ export async function getBankroll() {
 
 export async function getOpenBets(): Promise<Bet[]> {
   return (await sql`
-    select b.*, m.sport, m.league, m.home, m.away, m.kickoff
-    from bets b join matches m on m.id = b.match_id
+    select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
+    from bets b left join matches m on m.id = b.match_id
     where b.status = 'open'
-    order by m.kickoff asc, b.edge desc
+    order by b.edge desc
   `) as unknown as Bet[];
 }
 
 export async function getSettledBets(): Promise<Bet[]> {
   return (await sql`
-    select b.*, m.sport, m.league, m.home, m.away, m.kickoff
-    from bets b join matches m on m.id = b.match_id
+    select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
+    from bets b left join matches m on m.id = b.match_id
     where b.status in ('won','lost','void')
-    order by b.settled_at desc nulls last, m.kickoff desc
+    order by b.settled_at desc nulls last
     limit 200
   `) as unknown as Bet[];
 }
