@@ -23,16 +23,23 @@ export type OddsEntry = {
   totals: Record<string, number>; // "Over" / "Under" (línea 2.5)
 };
 
-/** Trae los momios actuales (mejor precio entre casas) para el torneo configurado. */
+/** Trae los momios actuales (mediana de casas) para TODAS las ligas configuradas. */
 export async function fetchOdds(): Promise<OddsEntry[]> {
   const key = process.env.ODDS_API_KEY;
   if (!key) return [];
-  const sport = process.env.ODDS_SPORT_KEY || "soccer_fifa_world_cup";
+  // ODDS_SPORT_KEYS (lista separada por comas) o ODDS_SPORT_KEY (una sola)
+  const sports = (process.env.ODDS_SPORT_KEYS || process.env.ODDS_SPORT_KEY || "soccer_fifa_world_cup")
+    .split(",").map((s) => s.trim()).filter(Boolean);
   const regions = process.env.ODDS_REGIONS || "us,uk,eu";
-  const url = `https://api.the-odds-api.com/v4/sports/${sport}/odds?regions=${regions}&markets=h2h,totals&oddsFormat=decimal&apiKey=${key}`;
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error(`OddsAPI ${res.status}: ${await res.text()}`);
-  const data = (await res.json()) as any[];
+  const all: any[] = [];
+  for (const sport of sports) {
+    try {
+      const url = `https://api.the-odds-api.com/v4/sports/${sport}/odds?regions=${regions}&markets=h2h,totals&oddsFormat=decimal&apiKey=${key}`;
+      const res = await fetch(url, { cache: "no-store" });
+      if (res.ok) all.push(...((await res.json()) as any[]));
+    } catch { /* liga sin datos / off-season: ignorar */ }
+  }
+  const data = all;
   const median = (a: number[]) => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); const m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   return data.map((ev) => {
     const h2hA: Record<string, number[]> = {}, totA: Record<string, number[]> = {};
