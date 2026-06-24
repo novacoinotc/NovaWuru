@@ -6,6 +6,9 @@ import { fetchOdds, findEntry, realOdds, type OddsEntry } from "./odds";
 const W_MODEL = 0.30;   // peso de nuestro modelo; 0.70 al mercado (de-vig)
 const EDGE_CAP = 0.15;  // edge > 15% casi siempre es error del modelo, no valor real
 const MAX_ODDS = 7.0;   // evita longshots donde domina el error del modelo
+// piso de probabilidad efectiva: descarta longshots fragiles. 0.20 fue el optimo en backtest
+// (mejor ROI +2.5% y 86% prob de ganar vs 0% piso). Ajustable por STRATEGY_PROB_FLOOR.
+const PROB_FLOOR = Number(process.env.STRATEGY_PROB_FLOOR || 0.20);
 
 // ===== Apuestas Soñadoras (billete de loteria con cabeza) =====
 const DREAM_MIN_P = Number(process.env.DREAM_MIN_PROB || 0.45);  // legs de prob media-alta...
@@ -108,6 +111,7 @@ export async function placeBets(
         const effProb = haveReal && mProb != null ? W_MODEL * model + (1 - W_MODEL) * mProb : model;
         const edge = ev(effProb, odds);
         if (edge < EV_TH || edge > EDGE_CAP || odds < 1.2 || odds > MAX_ODDS) continue;
+        if (effProb < PROB_FLOOR) continue; // descarta longshots fragiles (optimo backtest 0.20)
         // si ya tenemos esta apuesta abierta (de una corrida anterior), la MANTENEMOS al momio temprano
         const dup = await sql`select 1 from bets where match_id=${matchId} and market=${market} and selection=${sels[j].selection} and status='open' limit 1`;
         if (dup.length) continue;
