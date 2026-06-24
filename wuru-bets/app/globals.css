@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0b0f17;
+  --card: #131a26;
+  --border: #1f2937;
+  --green: #22c55e;
+  --red: #ef4444;
+  --muted: #94a3b8;
+}
+html, body {
+  background: var(--bg);
+  color: #e5e7eb;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.chip { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }

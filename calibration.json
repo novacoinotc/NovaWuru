@@ -1,0 +1,9 @@
+{
+  "G": 1.05,
+  "S": 1.2,
+  "rho": -0.12,
+  "delta": 1.1,
+  "note": "Calibracion MODESTA pre-registrada (sesgos repetibles, no ruido). Recalibracion agresiva sobreajusta: LOO-CV plano (0.878 vs baseline 0.877). Re-ajustar con >60 partidos (tras J3 + octavos).",
+  "rationale": "G1.05=Mundial algo goleador; S1.20=agentes IA timidos con ataque de fuertes (ensancha favorito<->debil); rho-0.12=empates rango literatura Dixon-Coles; delta1.10=leve exceso de empates en fase de grupos",
+  "fitted_on": "28 partidos Mundial 2026 (J1+J2)"
+}

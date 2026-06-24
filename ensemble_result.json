@@ -1,0 +1,5 @@
+{
+  "w_robust": 1.0,
+  "cv_logloss": 0.8557,
+  "agent_logloss": 0.8557
+}

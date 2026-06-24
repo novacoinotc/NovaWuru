@@ -1,0 +1,121 @@
+import { getBankroll, getOpenBets, getSettledBets, getHistory, kpis } from "@/lib/queries";
+import { fmtMXN } from "@/lib/betting";
+import BankrollChart from "@/components/BankrollChart";
+
+export const dynamic = "force-dynamic";
+
+function pct(n: number) { return `${(n * 100).toFixed(1)}%`; }
+function Stat({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: "pos" | "neg" }) {
+  return (
+    <div className="card p-4">
+      <div style={{ color: "var(--muted)", fontSize: 12 }}>{label}</div>
+      <div className={`text-2xl font-bold ${tone ?? ""}`} style={{ marginTop: 4 }}>{value}</div>
+      {sub && <div style={{ color: "var(--muted)", fontSize: 11, marginTop: 2 }}>{sub}</div>}
+    </div>
+  );
+}
+
+export default async function Dashboard() {
+  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [];
+  let dbError = "";
+  try {
+    bankroll = await getBankroll();
+    [open, settled, history] = await Promise.all([getOpenBets(), getSettledBets(), getHistory()]);
+  } catch (e) {
+    dbError = (e as Error).message;
+  }
+
+  if (dbError || !bankroll) {
+    return (
+      <main className="p-8 max-w-3xl mx-auto">
+        <h1 className="text-2xl font-bold mb-2">⚽ Wuru Bets</h1>
+        <div className="card p-6">
+          <p className="mb-2">Base de datos no inicializada o sin conexión.</p>
+          <pre style={{ color: "var(--muted)", fontSize: 12, whiteSpace: "pre-wrap" }}>{dbError}</pre>
+          <p style={{ marginTop: 12, color: "var(--muted)" }}>Corre: <code>docker compose up -d</code> · <code>npm run db:init</code> · <code>npm run seed</code></p>
+        </div>
+      </main>
+    );
+  }
+
+  const k = kpis(Number(bankroll.starting), Number(bankroll.current), [...open, ...settled]);
+  const exposure = open.reduce((a, b) => a + Number(b.stake), 0);
+  const chart = [{ label: "Inicio", balance: Number(bankroll.starting) }, ...history.map((h, i) => ({ label: `#${i + 1}`, balance: Number(h.balance) }))];
+
+  return (
+    <main className="p-6 md:p-8 max-w-7xl mx-auto">
+      <header className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">⚽ Wuru Bets <span className="chip">paper trading</span></h1>
+          <p style={{ color: "var(--muted)", fontSize: 13 }}>Value betting · ¼ Kelly · CLV · modelo Wuru</p>
+        </div>
+        <div className="text-right">
+          <div style={{ color: "var(--muted)", fontSize: 12 }}>Saldo actual</div>
+          <div className="text-3xl font-extrabold">{fmtMXN(Number(bankroll.current))}</div>
+        </div>
+      </header>
+
+      <section className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-6">
+        <Stat label="P&L total" value={fmtMXN(k.pnl)} tone={k.pnl >= 0 ? "pos" : "neg"} />
+        <Stat label="ROI" value={pct(k.roi)} tone={k.roi >= 0 ? "pos" : "neg"} sub={`inicial ${fmtMXN(Number(bankroll.starting))}`} />
+        <Stat label="Yield" value={pct(k.yield)} tone={k.yield >= 0 ? "pos" : "neg"} sub="ganancia/apostado" />
+        <Stat label="CLV prom." value={pct(k.avgClv)} tone={k.avgClv >= 0 ? "pos" : "neg"} sub="vs cuota cierre" />
+        <Stat label="Acierto" value={pct(k.hitRate)} sub={`${k.nSettled} liquidadas`} />
+        <Stat label="Exposición abierta" value={fmtMXN(exposure)} sub={`${open.length} posiciones`} />
+      </section>
+
+      <section className="card p-4 mb-6">
+        <h2 className="font-semibold mb-2">Curva de saldo</h2>
+        <BankrollChart data={chart} starting={Number(bankroll.starting)} />
+      </section>
+
+      <section className="card p-4 mb-6 overflow-x-auto">
+        <h2 className="font-semibold mb-3">📌 Posiciones abiertas ({open.length})</h2>
+        <table>
+          <thead><tr><th>Partido</th><th>Liga</th><th>Mercado</th><th>Pick</th><th>Prob</th><th>Cuota</th><th>Edge</th><th>Stake</th><th>Gana</th></tr></thead>
+          <tbody>
+            {open.map((b) => (
+              <tr key={b.id}>
+                <td><b>{b.home}</b> vs {b.away}</td>
+                <td><span className="chip">{b.league}</span></td>
+                <td>{b.market}</td>
+                <td><b>{b.selection}</b></td>
+                <td>{pct(Number(b.model_prob))}</td>
+                <td>{Number(b.odds_taken).toFixed(2)} <span className="chip" style={{ color: b.odds_source === "real" ? "var(--green)" : "var(--muted)" }}>{b.odds_source === "real" ? "real" : "sint"}</span></td>
+                <td className={Number(b.edge) >= 0 ? "pos" : "neg"}>{pct(Number(b.edge))}</td>
+                <td>{fmtMXN(Number(b.stake))}</td>
+                <td className="pos">{fmtMXN(Number(b.potential_return))}</td>
+              </tr>
+            ))}
+            {open.length === 0 && <tr><td colSpan={9} style={{ color: "var(--muted)" }}>Sin posiciones abiertas. Corre el análisis diario.</td></tr>}
+          </tbody>
+        </table>
+      </section>
+
+      <section className="card p-4 overflow-x-auto">
+        <h2 className="font-semibold mb-3">📊 Apuestas liquidadas</h2>
+        <table>
+          <thead><tr><th>Partido</th><th>Pick</th><th>Cuota</th><th>Stake</th><th>Resultado</th><th>P&L</th><th>CLV</th></tr></thead>
+          <tbody>
+            {settled.map((b) => (
+              <tr key={b.id}>
+                <td>{b.home} vs {b.away}</td>
+                <td>{b.market}: <b>{b.selection}</b></td>
+                <td>{Number(b.odds_taken).toFixed(2)}</td>
+                <td>{fmtMXN(Number(b.stake))}</td>
+                <td><span className="chip" style={{ color: b.status === "won" ? "var(--green)" : b.status === "lost" ? "var(--red)" : "var(--muted)" }}>{b.status}</span></td>
+                <td className={Number(b.result_pnl) >= 0 ? "pos" : "neg"}>{fmtMXN(Number(b.result_pnl ?? 0))}</td>
+                <td className={Number(b.clv ?? 0) >= 0 ? "pos" : "neg"}>{b.clv != null ? pct(Number(b.clv)) : "—"}</td>
+              </tr>
+            ))}
+            {settled.length === 0 && <tr><td colSpan={7} style={{ color: "var(--muted)" }}>Aún no hay apuestas liquidadas.</td></tr>}
+          </tbody>
+        </table>
+      </section>
+
+      <footer style={{ color: "var(--muted)", fontSize: 11, marginTop: 24, textAlign: "center" }}>
+        Wuru Bets · paper trading (dinero virtual) · stake por valor (¼ Kelly), nunca Martingale · juego responsable
+      </footer>
+    </main>
+  );
+}

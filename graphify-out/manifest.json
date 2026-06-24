@@ -1,0 +1,462 @@
+{
+  "/Users/issacvm/Documents/Futbol Wuru/backtest.json": {
+    "mtime": 1781885602.697736,
+    "ast_hash": "44bb364fba12ae9518241b0f3f44cb17",
+    "semantic_hash": "44bb364fba12ae9518241b0f3f44cb17"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/backtest_score.py": {
+    "mtime": 1781884639.1229103,
+    "ast_hash": "6ce84c50dccc8cf25afaf517ac3638a2",
+    "semantic_hash": "6ce84c50dccc8cf25afaf517ac3638a2"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/bracket_played.json": {
+    "mtime": 1781891106.6165354,
+    "ast_hash": "cdf935385435335cfe7190512f842972",
+    "semantic_hash": "cdf935385435335cfe7190512f842972"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/calibrate.py": {
+    "mtime": 1781886178.9555178,
+    "ast_hash": "0260fa3cbe477edafd1e381305695b8e",
+    "semantic_hash": "0260fa3cbe477edafd1e381305695b8e"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/calibration.json": {
+    "mtime": 1781886268.6344657,
+    "ast_hash": "cab0fba63cae6f1e1ddc16dbbeed6a19",
+    "semantic_hash": "cab0fba63cae6f1e1ddc16dbbeed6a19"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/calibration_elo.json": {
+    "mtime": 1781887287.4331548,
+    "ast_hash": "77ad56f39e6302a38fdad325d5d3047e",
+    "semantic_hash": "77ad56f39e6302a38fdad325d5d3047e"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/compare_glm_claude.py": {
+    "mtime": 1782315819.1671622,
+    "ast_hash": "e8c29f83476877790d11710532bd7f82",
+    "semantic_hash": "e8c29f83476877790d11710532bd7f82"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/draw_bracket.py": {
+    "mtime": 1781891557.2678046,
+    "ast_hash": "de3efbe3b47886874b4e0675388869ef",
+    "semantic_hash": "de3efbe3b47886874b4e0675388869ef"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/elo.json": {
+    "mtime": 1781886533.1580648,
+    "ast_hash": "900c5a5a43e29e5c8c5366d00bdb68fd",
+    "semantic_hash": "900c5a5a43e29e5c8c5366d00bdb68fd"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/elo2018.json": {
+    "mtime": 1781887199.764924,
+    "ast_hash": "0f556ea2b2f50d01a7de041fd7bb5620",
+    "semantic_hash": "0f556ea2b2f50d01a7de041fd7bb5620"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/elo2022.json": {
+    "mtime": 1781887199.7624915,
+    "ast_hash": "8c370650bbe31e8708672750ff2a92a8",
+    "semantic_hash": "8c370650bbe31e8708672750ff2a92a8"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/ensemble_blend.py": {
+    "mtime": 1781886524.631658,
+    "ast_hash": "dc9d7f6aa2617447e613e45652174590",
+    "semantic_hash": "dc9d7f6aa2617447e613e45652174590"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/ensemble_result.json": {
+    "mtime": 1781886533.319248,
+    "ast_hash": "32579c38412f43cab0b7396d0816ae18",
+    "semantic_hash": "32579c38412f43cab0b7396d0816ae18"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/env.json": {
+    "mtime": 1781813663.3391087,
+    "ast_hash": "965701cf07d066962121fdbcdc280b4a",
+    "semantic_hash": "965701cf07d066962121fdbcdc280b4a"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/export_predictions.py": {
+    "mtime": 1782254731.3970237,
+    "ast_hash": "64e40d3090f414494842e0050e94b34c",
+    "semantic_hash": "64e40d3090f414494842e0050e94b34c"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/glm_research.py": {
+    "mtime": 1782315992.0853596,
+    "ast_hash": "b9c61441a2de1d06a05ddb17120f12ce",
+    "semantic_hash": "b9c61441a2de1d06a05ddb17120f12ce"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/hist2018.json": {
+    "mtime": 1781887199.760182,
+    "ast_hash": "8728b67c5d72fe37ce5f76520e7dbd32",
+    "semantic_hash": "8728b67c5d72fe37ce5f76520e7dbd32"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/hist2022.json": {
+    "mtime": 1781887199.7580247,
+    "ast_hash": "ffad5f1dfb7bd23b62cd1913374d2329",
+    "semantic_hash": "ffad5f1dfb7bd23b62cd1913374d2329"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/hist_calibrate.py": {
+    "mtime": 1781887240.1664708,
+    "ast_hash": "6af15f5fececef4a651e6607734141cb",
+    "semantic_hash": "6af15f5fececef4a651e6607734141cb"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_ARG_AUT.json": {
+    "mtime": 1782144074.7709908,
+    "ast_hash": "2d3318ca7968f709b3ebcf69a7cfba3e",
+    "semantic_hash": "2d3318ca7968f709b3ebcf69a7cfba3e"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_BEL_IRN.json": {
+    "mtime": 1782060397.0350463,
+    "ast_hash": "10abd0124db0cd864791c7547293c348",
+    "semantic_hash": "10abd0124db0cd864791c7547293c348"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_BOS_QAT.json": {
+    "mtime": 1782315757.6730945,
+    "ast_hash": "ac078f13b2aeb31f1888735fc9cb1fa5",
+    "semantic_hash": "ac078f13b2aeb31f1888735fc9cb1fa5"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_BRA_HAI.json": {
+    "mtime": 1781892453.436955,
+    "ast_hash": "fc38342940210c2e5232ca9e9b36acd6",
+    "semantic_hash": "fc38342940210c2e5232ca9e9b36acd6"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_COL_COD.json": {
+    "mtime": 1782189670.8328562,
+    "ast_hash": "aa0e5921af0d962dc3375115d7073703",
+    "semantic_hash": "aa0e5921af0d962dc3375115d7073703"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_CZE_MEX.json": {
+    "mtime": 1782242826.7642148,
+    "ast_hash": "0853c3d0a185c7fc06a23041a0d59966",
+    "semantic_hash": "0853c3d0a185c7fc06a23041a0d59966"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_CZE_MEX_GLM.json": {
+    "mtime": 1782316144.829111,
+    "ast_hash": "dc767f3187bfe9bdeb130ab8abe58bd1",
+    "semantic_hash": "dc767f3187bfe9bdeb130ab8abe58bd1"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_ECU_CUR.json": {
+    "mtime": 1781974686.6202548,
+    "ast_hash": "92af5a769953de81fb9ba827c91a2fb1",
+    "semantic_hash": "92af5a769953de81fb9ba827c91a2fb1"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_ENG_GHA.json": {
+    "mtime": 1782189670.8301954,
+    "ast_hash": "e8a3ce46325736f704bbf3c1a2a5d163",
+    "semantic_hash": "e8a3ce46325736f704bbf3c1a2a5d163"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_ESP_KSA.json": {
+    "mtime": 1782060397.0343184,
+    "ast_hash": "b0ceef5d2dc88be19191fa3820060029",
+    "semantic_hash": "b0ceef5d2dc88be19191fa3820060029"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_FRA_IRQ.json": {
+    "mtime": 1782144074.771809,
+    "ast_hash": "322e1ef74cd23ef49437c3544873fa6f",
+    "semantic_hash": "322e1ef74cd23ef49437c3544873fa6f"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_GER_CIV.json": {
+    "mtime": 1781974686.6199026,
+    "ast_hash": "44e1ec6c450c85e8f7ac90960fa39c8b",
+    "semantic_hash": "44e1ec6c450c85e8f7ac90960fa39c8b"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_JOR_ALG.json": {
+    "mtime": 1782144074.7733667,
+    "ast_hash": "ca1f054fe412ad27f75540f9f6b11ef8",
+    "semantic_hash": "ca1f054fe412ad27f75540f9f6b11ef8"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_JPN_SWE.json": {
+    "mtime": 1782314551.9844882,
+    "ast_hash": "316687ccde3c3f103b595408169d15e6",
+    "semantic_hash": "316687ccde3c3f103b595408169d15e6"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_NED_SWE.json": {
+    "mtime": 1781974686.6195283,
+    "ast_hash": "7ceee67a73088e3dce2ec87dbc7b9a31",
+    "semantic_hash": "7ceee67a73088e3dce2ec87dbc7b9a31"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_NOR_SEN.json": {
+    "mtime": 1782144074.7726312,
+    "ast_hash": "f8b1a2e261c54ca8e407e1897a944509",
+    "semantic_hash": "f8b1a2e261c54ca8e407e1897a944509"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_NZL_EGY.json": {
+    "mtime": 1782060397.0363698,
+    "ast_hash": "ae4f2f621c50e5bf59439bb52a7ab6d1",
+    "semantic_hash": "ae4f2f621c50e5bf59439bb52a7ab6d1"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_PAN_CRO.json": {
+    "mtime": 1782189670.8314655,
+    "ast_hash": "79e90dde081574a12f6b42a2d7e6b67f",
+    "semantic_hash": "79e90dde081574a12f6b42a2d7e6b67f"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_POR_UZB.json": {
+    "mtime": 1782189670.8289778,
+    "ast_hash": "42b2331c1041cadb5846fbd7f6672018",
+    "semantic_hash": "42b2331c1041cadb5846fbd7f6672018"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_RSA_KOR.json": {
+    "mtime": 1782242826.7650003,
+    "ast_hash": "e49f51c49b100107a59637e839594e93",
+    "semantic_hash": "e49f51c49b100107a59637e839594e93"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_RSA_KOR_GLM.json": {
+    "mtime": 1782316240.5412805,
+    "ast_hash": "1882d5c131814870c4e54671417116dd",
+    "semantic_hash": "1882d5c131814870c4e54671417116dd"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_SCO_BRA.json": {
+    "mtime": 1782242826.7666044,
+    "ast_hash": "e6f83efc5286daa7aefebe71c3581167",
+    "semantic_hash": "e6f83efc5286daa7aefebe71c3581167"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_SCO_BRA_GLM.json": {
+    "mtime": 1782316568.9669266,
+    "ast_hash": "829738f560bd7b7ad811cf7a2a9ecb97",
+    "semantic_hash": "829738f560bd7b7ad811cf7a2a9ecb97"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_SCO_MAR.json": {
+    "mtime": 1781892453.4365976,
+    "ast_hash": "94782a2e21723b73c88be6dbe23d94e8",
+    "semantic_hash": "94782a2e21723b73c88be6dbe23d94e8"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_SUI_CAN.json": {
+    "mtime": 1782242826.7657728,
+    "ast_hash": "5746bd1cd719b100f9ad883d4b1efc90",
+    "semantic_hash": "5746bd1cd719b100f9ad883d4b1efc90"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_SUI_CAN_GLM.json": {
+    "mtime": 1782316379.7447367,
+    "ast_hash": "fe1eed0fa6f7b3e6ab12dc99db6b226e",
+    "semantic_hash": "fe1eed0fa6f7b3e6ab12dc99db6b226e"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_TUN_JPN.json": {
+    "mtime": 1781974686.620603,
+    "ast_hash": "a29cb9474852be3fba19252a95894253",
+    "semantic_hash": "a29cb9474852be3fba19252a95894253"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_TUR_PAR.json": {
+    "mtime": 1781892453.436243,
+    "ast_hash": "0cfaec78479c7f592f7d6c3d4053277d",
+    "semantic_hash": "0cfaec78479c7f592f7d6c3d4053277d"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_URU_CPV.json": {
+    "mtime": 1782060397.0357358,
+    "ast_hash": "b2062851048b1afabac808465376b5c3",
+    "semantic_hash": "b2062851048b1afabac808465376b5c3"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/match_USA_AUS.json": {
+    "mtime": 1781892453.4358582,
+    "ast_hash": "c2d0f6c8b700ede8288e7c8bd795572c",
+    "semantic_hash": "c2d0f6c8b700ede8288e7c8bd795572c"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/orchestrator.py": {
+    "mtime": 1782315356.7873487,
+    "ast_hash": "afcb2b44fea52bb02420b61ffd651405",
+    "semantic_hash": "afcb2b44fea52bb02420b61ffd651405"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/player_minds.json": {
+    "mtime": 1781811931.3824995,
+    "ast_hash": "e10cfada0559249dbd91280337bfe192",
+    "semantic_hash": "e10cfada0559249dbd91280337bfe192"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/predict_match.py": {
+    "mtime": 1781886268.639249,
+    "ast_hash": "6c6cffe4a2c163dab94dab7443512e38",
+    "semantic_hash": "6c6cffe4a2c163dab94dab7443512e38"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/predictions.json": {
+    "mtime": 1782315507.5449226,
+    "ast_hash": "dad9a2c5d96ebb3c8384f367225aadc0",
+    "semantic_hash": "dad9a2c5d96ebb3c8384f367225aadc0"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/results.json": {
+    "mtime": 1782255072.069531,
+    "ast_hash": "05a59aac487469588c71c710669cd5b3",
+    "semantic_hash": "05a59aac487469588c71c710669cd5b3"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/search_calibration.py": {
+    "mtime": 1781886454.8830273,
+    "ast_hash": "461f738a67eecc62f04bc845e1dce415",
+    "semantic_hash": "461f738a67eecc62f04bc845e1dce415"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/search_result.json": {
+    "mtime": 1781886460.5980456,
+    "ast_hash": "17941bd115cd76f0fd4a5522b7b48cf1",
+    "semantic_hash": "17941bd115cd76f0fd4a5522b7b48cf1"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/sim_agentes.py": {
+    "mtime": 1781811908.6912012,
+    "ast_hash": "d4c0dacc10aefd5d60b923d162ef2bdd",
+    "semantic_hash": "d4c0dacc10aefd5d60b923d162ef2bdd"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/sim_gemelos.py": {
+    "mtime": 1781882978.3395965,
+    "ast_hash": "5ec7a1d20ccdcfac400a8f9577572888",
+    "semantic_hash": "5ec7a1d20ccdcfac400a8f9577572888"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/sim_gemelos_v2.py": {
+    "mtime": 1781884251.1547914,
+    "ast_hash": "997ccd68a6c801faae697574f19ebd11",
+    "semantic_hash": "997ccd68a6c801faae697574f19ebd11"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/sim_match.py": {
+    "mtime": 1781892557.1714387,
+    "ast_hash": "d7042e272328799a6bda92845e8c075d",
+    "semantic_hash": "d7042e272328799a6bda92845e8c075d"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/sim_mex_kor.py": {
+    "mtime": 1781810926.7406216,
+    "ast_hash": "7cb5eccb82d94200d820bcd03a8fd8dd",
+    "semantic_hash": "7cb5eccb82d94200d820bcd03a8fd8dd"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/tournament_probs.json": {
+    "mtime": 1781887882.1202223,
+    "ast_hash": "170f65b8260db6e74d63d00d72582b0f",
+    "semantic_hash": "170f65b8260db6e74d63d00d72582b0f"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/tournament_sim.py": {
+    "mtime": 1781887877.1528714,
+    "ast_hash": "224f25397683ab3d4a6c7c914db901a7",
+    "semantic_hash": "224f25397683ab3d4a6c7c914db901a7"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/tournament_state.json": {
+    "mtime": 1781887805.4936154,
+    "ast_hash": "17aba9b83200730aeb9d49ab7b6b5d62",
+    "semantic_hash": "17aba9b83200730aeb9d49ab7b6b5d62"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/twins.json": {
+    "mtime": 1781884077.967121,
+    "ast_hash": "7ba0794a2b98c3523eb03de085c05c23",
+    "semantic_hash": "7ba0794a2b98c3523eb03de085c05c23"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/app/api/cron/route.ts": {
+    "mtime": 1782254868.125488,
+    "ast_hash": "4fd7e98dd2412c24ff85d351db898245",
+    "semantic_hash": "4fd7e98dd2412c24ff85d351db898245"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/app/api/health/route.ts": {
+    "mtime": 1782259491.627717,
+    "ast_hash": "85dd4e3db00ded0a9672c544cdf7b631",
+    "semantic_hash": "85dd4e3db00ded0a9672c544cdf7b631"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/app/api/odds/route.ts": {
+    "mtime": 1782259476.0768027,
+    "ast_hash": "c28c4dc017f1f2f6d98882d96b2d3c1e",
+    "semantic_hash": "c28c4dc017f1f2f6d98882d96b2d3c1e"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/app/layout.tsx": {
+    "mtime": 1782254622.339715,
+    "ast_hash": "f518c26f3e34033a7ae6df38e03d0d78",
+    "semantic_hash": "f518c26f3e34033a7ae6df38e03d0d78"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/app/page.tsx": {
+    "mtime": 1782259511.1345599,
+    "ast_hash": "8bd677830eba06f87f753a963c5fd345",
+    "semantic_hash": "8bd677830eba06f87f753a963c5fd345"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/components/BankrollChart.tsx": {
+    "mtime": 1782254649.733351,
+    "ast_hash": "33f80254975fb2a574efe3f2a522ed3d",
+    "semantic_hash": "33f80254975fb2a574efe3f2a522ed3d"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/lib/ai.ts": {
+    "mtime": 1782260242.7670338,
+    "ast_hash": "96fd3003238bb61e4b23772f342003d6",
+    "semantic_hash": "96fd3003238bb61e4b23772f342003d6"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/lib/betting.ts": {
+    "mtime": 1782254596.9794443,
+    "ast_hash": "625422fc44631d4f50d79430439a8dd9",
+    "semantic_hash": "625422fc44631d4f50d79430439a8dd9"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/lib/db.ts": {
+    "mtime": 1782254571.8143396,
+    "ast_hash": "5c7fe873e870dc82953ccc9424a336d6",
+    "semantic_hash": "5c7fe873e870dc82953ccc9424a336d6"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/lib/engine.ts": {
+    "mtime": 1782260649.1851904,
+    "ast_hash": "598e46f076b64db391062418928569bf",
+    "semantic_hash": "598e46f076b64db391062418928569bf"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/lib/odds.ts": {
+    "mtime": 1782260466.1065292,
+    "ast_hash": "47ac34d40485b5ee008a4b72bee327ae",
+    "semantic_hash": "47ac34d40485b5ee008a4b72bee327ae"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/lib/queries.ts": {
+    "mtime": 1782259502.8380673,
+    "ast_hash": "32c83dc7f23707923d8b1762c122e24a",
+    "semantic_hash": "32c83dc7f23707923d8b1762c122e24a"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/next-env.d.ts": {
+    "mtime": 1782255029.2068942,
+    "ast_hash": "ba64ff7d54714a8f64db89b1003207d8",
+    "semantic_hash": "ba64ff7d54714a8f64db89b1003207d8"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/next.config.mjs": {
+    "mtime": 1782254549.8213227,
+    "ast_hash": "5f3824486ecc6cbf8ece244892cab698",
+    "semantic_hash": "5f3824486ecc6cbf8ece244892cab698"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/package.json": {
+    "mtime": 1782255019.0911674,
+    "ast_hash": "3f360369453bedff9020621ed1a7b456",
+    "semantic_hash": "3f360369453bedff9020621ed1a7b456"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/postcss.config.mjs": {
+    "mtime": 1782254561.2560818,
+    "ast_hash": "5a079f1165090dcd175c989af1d3ad50",
+    "semantic_hash": "5a079f1165090dcd175c989af1d3ad50"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/scripts/dbinit.ts": {
+    "mtime": 1782259456.2615142,
+    "ast_hash": "fc4d5be279fdc3cf1304faa644a84e61",
+    "semantic_hash": "fc4d5be279fdc3cf1304faa644a84e61"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/scripts/seed.ts": {
+    "mtime": 1782254862.144461,
+    "ast_hash": "c06a8c70304a43de357bcd217a8a4f50",
+    "semantic_hash": "c06a8c70304a43de357bcd217a8a4f50"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/scripts/settle.ts": {
+    "mtime": 1782254817.2292545,
+    "ast_hash": "a39eedd96d9c0465d0ca33a7010e5684",
+    "semantic_hash": "a39eedd96d9c0465d0ca33a7010e5684"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/tsconfig.json": {
+    "mtime": 1782254549.2840393,
+    "ast_hash": "39c0a36232661eeebcda5dd52dceee80",
+    "semantic_hash": "39c0a36232661eeebcda5dd52dceee80"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/vercel.json": {
+    "mtime": 1782254880.854758,
+    "ast_hash": "05a0dc7df1e92ab55c98ccd9c66256fc",
+    "semantic_hash": "05a0dc7df1e92ab55c98ccd9c66256fc"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/AVANCES_DEL_SISTEMA.md": {
+    "mtime": 1782255913.6827786,
+    "ast_hash": "ea9fcaa6d1f4ca737e765b123f730669",
+    "semantic_hash": "ea9fcaa6d1f4ca737e765b123f730669"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/estrategia de analisis.md": {
+    "mtime": 1782057600.528952,
+    "ast_hash": "1c708c9701dbbfed8843bafcef085c33",
+    "semantic_hash": "1c708c9701dbbfed8843bafcef085c33"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/README.md": {
+    "mtime": 1782254893.7349162,
+    "ast_hash": "23ccb381dc01cc593f6e9343228bbda1",
+    "semantic_hash": "23ccb381dc01cc593f6e9343228bbda1"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/wuru-bets/docker-compose.yml": {
+    "mtime": 1782254568.4926705,
+    "ast_hash": "ec94e0374ca65614a208f30860a41e65",
+    "semantic_hash": "ec94e0374ca65614a208f30860a41e65"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/bracket_mundial2026.pdf": {
+    "mtime": 1781891564.3028722,
+    "ast_hash": "dff723bb24459186b547b2fe05b8a274",
+    "semantic_hash": "dff723bb24459186b547b2fe05b8a274"
+  },
+  "/Users/issacvm/Documents/Futbol Wuru/bracket_mundial2026.png": {
+    "mtime": 1781891564.1810994,
+    "ast_hash": "dd578b578198c7873a66ac3ca69face3",
+    "semantic_hash": "dd578b578198c7873a66ac3ca69face3"
+  }
+}

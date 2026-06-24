@@ -1,0 +1,1127 @@
+[
+  {
+    "home": "Argentina",
+    "away": "Austria",
+    "group": "J",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Argentina",
+        "prob": 0.60195
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.24407
+      },
+      {
+        "market": "1X2",
+        "selection": "Austria",
+        "prob": 0.15398
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.54775
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.45225000000000004
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.55119
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.44881000000000004
+      }
+    ],
+    "id": "ARG_AUT",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Belgium",
+    "away": "Iran",
+    "group": "G",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Belgium",
+        "prob": 0.47785
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27806
+      },
+      {
+        "market": "1X2",
+        "selection": "Iran",
+        "prob": 0.24409
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.5352
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.4648
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.58844
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.41156000000000004
+      }
+    ],
+    "id": "BEL_IRN",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Brazil",
+    "away": "Haiti",
+    "group": "C",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Brazil",
+        "prob": 0.74119
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.18376
+      },
+      {
+        "market": "1X2",
+        "selection": "Haiti",
+        "prob": 0.07505
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.56811
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.43189
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.46997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.53003
+      }
+    ],
+    "id": "BRA_HAI",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Colombia",
+    "away": "DR Congo",
+    "group": "K",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Colombia",
+        "prob": 0.59915
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.2458
+      },
+      {
+        "market": "1X2",
+        "selection": "DR Congo",
+        "prob": 0.15505
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.53873
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.46126999999999996
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.5432
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.4568
+      }
+    ],
+    "id": "COL_COD",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Czechia",
+    "away": "Mexico",
+    "group": "A",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Czechia",
+        "prob": 0.2102
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27703
+      },
+      {
+        "market": "1X2",
+        "selection": "Mexico",
+        "prob": 0.51277
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.49672
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.50328
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.54558
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.45442000000000005
+      }
+    ],
+    "id": "CZE_MEX",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Ecuador",
+    "away": "Curacao",
+    "group": "E",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Ecuador",
+        "prob": 0.68414
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.21061
+      },
+      {
+        "market": "1X2",
+        "selection": "Curacao",
+        "prob": 0.10525
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.55711
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.44289
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.50879
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.49121000000000004
+      }
+    ],
+    "id": "ECU_CUR",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "England",
+    "away": "Ghana",
+    "group": "L",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "England",
+        "prob": 0.73709
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.1901
+      },
+      {
+        "market": "1X2",
+        "selection": "Ghana",
+        "prob": 0.07281
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.51263
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.48736999999999997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.41705
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.5829500000000001
+      }
+    ],
+    "id": "ENG_GHA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Spain",
+    "away": "Saudi Arabia",
+    "group": "H",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Spain",
+        "prob": 0.71958
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.19963
+      },
+      {
+        "market": "1X2",
+        "selection": "Saudi Arabia",
+        "prob": 0.08079
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.50863
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.49137
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.43053
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.5694699999999999
+      }
+    ],
+    "id": "ESP_KSA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "France",
+    "away": "Iraq",
+    "group": "I",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "France",
+        "prob": 0.72052
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.19608
+      },
+      {
+        "market": "1X2",
+        "selection": "Iraq",
+        "prob": 0.0834
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.5373
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.4627
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.45486
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.54514
+      }
+    ],
+    "id": "FRA_IRQ",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Germany",
+    "away": "Ivory Coast",
+    "group": "E",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Germany",
+        "prob": 0.50491
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27961
+      },
+      {
+        "market": "1X2",
+        "selection": "Ivory Coast",
+        "prob": 0.21548
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.50916
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.49084000000000005
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.56307
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.43693000000000004
+      }
+    ],
+    "id": "GER_CIV",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Jordan",
+    "away": "Algeria",
+    "group": "J",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Jordan",
+        "prob": 0.37436
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27477
+      },
+      {
+        "market": "1X2",
+        "selection": "Algeria",
+        "prob": 0.35087
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.6062
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.39380000000000004
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.65915
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.34085
+      }
+    ],
+    "id": "JOR_ALG",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Japan",
+    "away": "Sweden",
+    "group": "F",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Japan",
+        "prob": 0.46494
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.28318
+      },
+      {
+        "market": "1X2",
+        "selection": "Sweden",
+        "prob": 0.25188
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.52999
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.47001000000000004
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.58947
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.41052999999999995
+      }
+    ],
+    "id": "JPN_SWE",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Netherlands",
+    "away": "Sweden",
+    "group": "F",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Netherlands",
+        "prob": 0.50945
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.26594
+      },
+      {
+        "market": "1X2",
+        "selection": "Sweden",
+        "prob": 0.22461
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.58164
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.41835999999999995
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.62149
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.37851
+      }
+    ],
+    "id": "NED_SWE",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Norway",
+    "away": "Senegal",
+    "group": "I",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Norway",
+        "prob": 0.40927
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.28308
+      },
+      {
+        "market": "1X2",
+        "selection": "Senegal",
+        "prob": 0.30765
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.56848
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.43152
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.63138
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.36861999999999995
+      }
+    ],
+    "id": "NOR_SEN",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "New Zealand",
+    "away": "Egypt",
+    "group": "G",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "New Zealand",
+        "prob": 0.27011
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.2816
+      },
+      {
+        "market": "1X2",
+        "selection": "Egypt",
+        "prob": 0.44829
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.53805
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.46194999999999997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.59711
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.40288999999999997
+      }
+    ],
+    "id": "NZL_EGY",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Panama",
+    "away": "Croatia",
+    "group": "L",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Panama",
+        "prob": 0.25017
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27436
+      },
+      {
+        "market": "1X2",
+        "selection": "Croatia",
+        "prob": 0.47547
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.56516
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.43484
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.61618
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.38382000000000005
+      }
+    ],
+    "id": "PAN_CRO",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Portugal",
+    "away": "Uzbekistan",
+    "group": "K",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Portugal",
+        "prob": 0.62587
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.23217
+      },
+      {
+        "market": "1X2",
+        "selection": "Uzbekistan",
+        "prob": 0.14196
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.56704
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.43296
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.55576
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.44423999999999997
+      }
+    ],
+    "id": "POR_UZB",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "South Africa",
+    "away": "South Korea",
+    "group": "A",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "South Africa",
+        "prob": 0.26228
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.2814
+      },
+      {
+        "market": "1X2",
+        "selection": "South Korea",
+        "prob": 0.45632
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.52493
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.47507
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.58326
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.41674
+      }
+    ],
+    "id": "RSA_KOR",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Scotland",
+    "away": "Brazil",
+    "group": "C",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Scotland",
+        "prob": 0.18987
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.26656
+      },
+      {
+        "market": "1X2",
+        "selection": "Brazil",
+        "prob": 0.54357
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.50825
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.49175
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.54295
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.45704999999999996
+      }
+    ],
+    "id": "SCO_BRA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Scotland",
+    "away": "Morocco",
+    "group": "C",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Scotland",
+        "prob": 0.33088
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.28643
+      },
+      {
+        "market": "1X2",
+        "selection": "Morocco",
+        "prob": 0.38269
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.56037
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.43962999999999997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.62679
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.37321000000000004
+      }
+    ],
+    "id": "SCO_MAR",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Switzerland",
+    "away": "Canada",
+    "group": "B",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Switzerland",
+        "prob": 0.4518
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.28322
+      },
+      {
+        "market": "1X2",
+        "selection": "Canada",
+        "prob": 0.26498
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.53698
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.46302
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.59887
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.40113
+      }
+    ],
+    "id": "SUI_CAN",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Tunisia",
+    "away": "Japan",
+    "group": "F",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Tunisia",
+        "prob": 0.18067
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.24371
+      },
+      {
+        "market": "1X2",
+        "selection": "Japan",
+        "prob": 0.57562
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.60498
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.39502000000000004
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.61382
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.38617999999999997
+      }
+    ],
+    "id": "TUN_JPN",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Turkiye",
+    "away": "Paraguay",
+    "group": "D",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Turkiye",
+        "prob": 0.47132
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27076
+      },
+      {
+        "market": "1X2",
+        "selection": "Paraguay",
+        "prob": 0.25792
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.59012
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.40988
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.6377
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.36229999999999996
+      }
+    ],
+    "id": "TUR_PAR",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Uruguay",
+    "away": "Cabo Verde",
+    "group": "H",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Uruguay",
+        "prob": 0.65583
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.21362
+      },
+      {
+        "market": "1X2",
+        "selection": "Cabo Verde",
+        "prob": 0.13055
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.62384
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.37616000000000005
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.58694
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.41306
+      }
+    ],
+    "id": "URU_CPV",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "USA",
+    "away": "Australia",
+    "group": "D",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "USA",
+        "prob": 0.3948
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.28282
+      },
+      {
+        "market": "1X2",
+        "selection": "Australia",
+        "prob": 0.32238
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.57503
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.42496999999999996
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.63663
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.36336999999999997
+      }
+    ],
+    "id": "USA_AUS",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  }
+]

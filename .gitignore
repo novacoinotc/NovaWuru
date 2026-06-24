@@ -1,0 +1,29 @@
+# ===== Secretos (NUNCA subir) =====
+.env
+*.env
+.env.local
+
+# ===== Node / Next =====
+node_modules/
+.next/
+dist/
+*.log
+
+# ===== Python =====
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ===== OS =====
+.DS_Store
+
+# ===== graphify (internos/caché; se regeneran) =====
+graphify-out/.graphify_*
+graphify-out/cost.json
+graphify-out/.needs_update
+graphify-out/obsidian/
+
+# ===== temporales =====
+_part*.md
+_gen*.py

@@ -1,0 +1,9 @@
+{
+  "TOTAL": 2.85,
+  "GP400": 1.2,
+  "HOST": 90,
+  "rho": -0.1,
+  "delta": 1.05,
+  "note": "Calibracion MODERADA del motor Elo->Dixon-Coles (direccion consistente en 124 partidos; el optimo extremo no es significativo). Priors transferibles: Mundial goleador (TOTAL~2.85), favoritos mas separados (GP400 1.2), ventaja anfitrion real (~90 Elo).",
+  "evidencia": "124 partidos 2018+2022+2026; tuning no significativo (bootstrap cruza 0) pero direccion robusta"
+}

@@ -1,0 +1,15 @@
+{
+  "G": 0.95,
+  "S": 1.3,
+  "rho": -0.18,
+  "delta0": 1.3,
+  "kappa": 0.35,
+  "cv_logloss": 0.8661,
+  "baseline_logloss": 0.877,
+  "bootstrap_mean": 0.0534,
+  "bootstrap_ci": [
+    -0.0202,
+    0.1238
+  ],
+  "note": "Config seleccionada por CV del procedimiento; kappa = boost de empate en partidos parejos"
+}
