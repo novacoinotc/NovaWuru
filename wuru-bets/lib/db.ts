@@ -1,14 +1,17 @@
 import postgres from "postgres";
+import { neon } from "@neondatabase/serverless";
 
 const url = process.env.DATABASE_URL || "postgres://wuru:wuru@localhost:5432/wuru";
-const isManaged = /neon\.tech|supabase|aws|sslmode=require/.test(url);
 
-// Singleton para evitar multiples pools en dev/serverless
+// Neon (prod/Vercel): driver HTTP oficial. Local (Docker): driver postgres TCP.
+function make() {
+  if (/neon\.tech/.test(url)) {
+    const nsql = neon(url) as unknown as { end: () => Promise<void> } & ReturnType<typeof neon>;
+    nsql.end = async () => {}; // no-op (HTTP, sin conexión persistente)
+    return nsql as unknown as ReturnType<typeof postgres>;
+  }
+  return postgres(url, { ssl: false, max: 5 });
+}
+
 const g = globalThis as unknown as { _sql?: ReturnType<typeof postgres> };
-export const sql =
-  g._sql ??
-  postgres(url, {
-    ssl: isManaged ? "require" : false,
-    max: isManaged ? 1 : 5,
-  });
-if (process.env.NODE_ENV !== "production") g._sql = sql;
+export const sql = g._sql ?? (g._sql = make());

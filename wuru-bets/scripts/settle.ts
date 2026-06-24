@@ -1,8 +1,8 @@
+import "../lib/loadenv";
 import { sql } from "../lib/db";
 import { clv as clvCalc } from "../lib/betting";
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
-try { (process as any).loadEnvFile?.(".env"); } catch {}
 
 // results.json: { "ENG_GHA": {"hg":0,"ag":1,"closing":{"1X2":{"Ghana":3.9}}}, ... }
 function grade(market: string, sel: string, home: string, away: string, hg: number, ag: number): boolean {

@@ -1,8 +1,8 @@
+import "../lib/loadenv";
 import { sql } from "../lib/db";
 import { placeBets, type Pred } from "../lib/engine";
 import { readFileSync } from "fs";
 import { resolve } from "path";
-try { (process as any).loadEnvFile?.(".env"); } catch {}
 
 async function main() {
   const path = resolve(process.cwd(), "../predictions.json");

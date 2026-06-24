@@ -1,5 +1,5 @@
+import "../lib/loadenv";
 import { sql } from "../lib/db";
-try { (process as any).loadEnvFile?.(".env"); } catch {}
 
 async function main() {
   await sql`create table if not exists bankroll (
