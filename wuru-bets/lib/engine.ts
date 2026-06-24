@@ -205,9 +205,51 @@ export async function placeBets(
   const favLegs = dreamCands.filter((c) => c.prob >= DREAM_MIN_P && c.prob <= DREAM_MAX_P && c.odds <= 3.2).sort((a, b) => b.prob - a.prob);
   await buildDream("dream_fav", favLegs, 3, 80, 7, 0.0005);    // 3-10 legs, objetivo ~80x (billete grande)
 
-  // saldo disponible = inicial - exposición abierta + retornos liquidados
-  const realized = (await sql`select coalesce(sum(case when status='won' then potential_return when status='lost' then -stake else 0 end),0) as r from bets`)[0].r;
-  const openExp = (await sql`select coalesce(sum(stake),0) as e from bets where status='open'`)[0].e;
+  // saldo disponible (Modelo Valor) = inicial - exposición abierta + retornos liquidados
+  const realized = (await sql`select coalesce(sum(case when status='won' then potential_return when status='lost' then -stake else 0 end),0) as r from bets where model='valor'`)[0].r;
+  const openExp = (await sql`select coalesce(sum(stake),0) as e from bets where status='open' and model='valor'`)[0].e;
   await sql`update bankroll set current=${starting - Number(openExp) + Number(realized)}, updated_at=now() where id=1`;
   return { placed, exposure, matches: preds.length, dreams };
+}
+
+/** MODELO SIMULACIÓN (A/B test): apuesta al FAVORITO de cada simulación, stake plano. Bankroll id=2. */
+export async function placeSimBets(preds: Pred[], opts: { reset?: boolean } = {}) {
+  const FLAT = Number(process.env.SIM_FLAT_PCT || 0.02); // 2% del inicial por partido
+  let oddsList: OddsEntry[] = [];
+  try { oddsList = await fetchOdds(); } catch { oddsList = []; }
+  if (process.env.ODDS_API_KEY && oddsList.length === 0) return { placed: 0, model: "simulacion", note: "sin momios reales" };
+
+  if (opts.reset) await sql`delete from bets where model='simulacion'`;
+  const b = (await sql`select starting from bankroll where id=2`)[0] as any;
+  const starting = Number(b?.starting ?? 100000);
+  if (opts.reset) await sql`update bankroll set current=${starting} where id=2`;
+
+  // dedup de partidos repetidos
+  const fxKey = (h: string, a: string) => (h + "|" + a).toLowerCase().normalize("NFD").replace(/[^a-z0-9|]/g, "");
+  const seenFx = new Set<string>();
+  let placed = 0;
+  for (const p of preds) {
+    const k = fxKey(p.home, p.away); if (seenFx.has(k)) continue; seenFx.add(k);
+    const entry = findEntry(oddsList, p.home, p.away);
+    if (!entry) continue;                               // solo partidos con momio real
+    const mid = (await sql`select id from matches where ext_id=${p.id}`)[0]?.id;
+    if (!mid) continue;
+    // favorito = selección 1X2 con mayor prob del modelo
+    const x1 = p.markets.filter((m) => m.market === "1X2");
+    if (!x1.length) continue;
+    const fav = x1.reduce((a, c) => (c.prob > a.prob ? c : a));
+    const odds = realOdds(entry, "1X2", fav.selection, p.home, p.away);
+    if (!odds || odds < 1.2 || odds > 21) continue;
+    const dup = await sql`select 1 from bets where match_id=${mid} and model='simulacion' and status='open' limit 1`;
+    if (dup.length) continue;
+    const stake = Math.round(starting * FLAT);
+    const ret = Math.round(stake * (odds - 1));
+    await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status, model)
+      values (${mid}, '1X2', ${fav.selection}, ${fav.prob}, ${odds}, ${impliedProb(odds)}, ${fav.prob * odds - 1}, ${stake}, ${ret}, ${odds}, 'real', 'open', 'simulacion')`;
+    placed++;
+  }
+  const realized = (await sql`select coalesce(sum(case when status='won' then potential_return when status='lost' then -stake else 0 end),0) as r from bets where model='simulacion'`)[0].r;
+  const openExp = (await sql`select coalesce(sum(stake),0) as e from bets where status='open' and model='simulacion'`)[0].e;
+  await sql`update bankroll set current=${starting - Number(openExp) + Number(realized)}, updated_at=now() where id=2`;
+  return { placed, model: "simulacion" };
 }

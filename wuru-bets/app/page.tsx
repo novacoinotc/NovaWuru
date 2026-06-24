@@ -1,4 +1,4 @@
-import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, getSmartParlays, getPredictions, kpis } from "@/lib/queries";
+import { getBankroll, getOpenBets, getSettledBets, getHistory, getDreamBets, getSmartParlays, getPredictions, getSimBets, kpis } from "@/lib/queries";
 import { fmtMXN } from "@/lib/betting";
 import BankrollChart from "@/components/BankrollChart";
 
@@ -21,11 +21,12 @@ function Stat({ label, value, sub, tone }: { label: string; value: string; sub?:
 }
 
 export default async function Dashboard() {
-  let bankroll, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [], smart: Awaited<ReturnType<typeof getSmartParlays>> = [], preds: Awaited<ReturnType<typeof getPredictions>> = [];
+  let bankroll, bankroll2, open: Awaited<ReturnType<typeof getOpenBets>> = [], settled: Awaited<ReturnType<typeof getSettledBets>> = [], history: Awaited<ReturnType<typeof getHistory>> = [], dreams: Awaited<ReturnType<typeof getDreamBets>> = [], smart: Awaited<ReturnType<typeof getSmartParlays>> = [], preds: Awaited<ReturnType<typeof getPredictions>> = [], sim: Awaited<ReturnType<typeof getSimBets>> = [];
   let dbError = "";
   try {
-    bankroll = await getBankroll();
-    [open, settled, history, dreams, smart, preds] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets(), getSmartParlays(), getPredictions()]);
+    bankroll = await getBankroll(1);
+    bankroll2 = await getBankroll(2);
+    [open, settled, history, dreams, smart, preds, sim] = await Promise.all([getOpenBets(), getSettledBets(), getHistory(), getDreamBets(), getSmartParlays(), getPredictions(), getSimBets()]);
   } catch (e) {
     dbError = (e as Error).message;
   }
@@ -45,6 +46,11 @@ export default async function Dashboard() {
 
   const k = kpis(Number(bankroll.starting), Number(bankroll.current), [...open, ...settled]);
   const exposure = open.reduce((a, b) => a + Number(b.stake), 0);
+  // Modelo Simulación (A/B)
+  const simStart = Number(bankroll2?.starting ?? 100000);
+  const simCur = Number(bankroll2?.current ?? simStart);
+  const kSim = kpis(simStart, simCur, sim);
+  const simOpen = sim.filter((b) => b.status === "open");
   const chart = [{ label: "Inicio", balance: Number(bankroll.starting) }, ...history.map((h, i) => ({ label: `#${i + 1}`, balance: Number(h.balance) }))];
 
   return (
@@ -60,6 +66,34 @@ export default async function Dashboard() {
         </div>
       </header>
 
+      <section className="card p-4 mb-6">
+        <h2 className="font-semibold mb-1">⚔️ A/B Test — dos modelos en paralelo ($100k cada uno)</h2>
+        <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Compara en vivo: <b>Valor</b> (apuesta solo donde el momio paga de más) vs <b>Simulación</b> (apuesta al ganador de cada simulación). Mismo dinero, mismos partidos.</p>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { name: "🟢 Modelo Valor", cur: Number(bankroll.current), st: Number(bankroll.starting), k, n: open.length, lab: "abiertas" },
+            { name: "🔵 Modelo Simulación", cur: simCur, st: simStart, k: kSim, n: simOpen.length, lab: "abiertas" },
+          ].map((m) => {
+            const pnl = m.cur - m.st;
+            return (
+              <div key={m.name} className="card p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold">{m.name}</span>
+                  <span className="text-2xl font-extrabold">{fmtMXN(m.cur)}</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2" style={{ marginTop: 8 }}>
+                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>P&L</div><div className={pnl >= 0 ? "pos" : "neg"} style={{ fontWeight: 700 }}>{fmtMXN(pnl)}</div></div>
+                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>ROI</div><div className={pnl >= 0 ? "pos" : "neg"} style={{ fontWeight: 700 }}>{pct(pnl / m.st)}</div></div>
+                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>Acierto</div><div style={{ fontWeight: 700 }}>{pct(m.k.hitRate)} <span style={{ color: "var(--muted)", fontSize: 11 }}>({m.k.nSettled})</span></div></div>
+                </div>
+                <div style={{ color: "var(--muted)", fontSize: 11, marginTop: 6 }}>{m.n} {m.lab} · {m.k.nSettled} liquidadas</div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <h3 className="font-semibold mb-2" style={{ fontSize: 14 }}>🟢 Modelo Valor — detalle</h3>
       <section className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-6">
         <Stat label="P&L total" value={fmtMXN(k.pnl)} tone={k.pnl >= 0 ? "pos" : "neg"} />
         <Stat label="ROI" value={pct(k.roi)} tone={k.roi >= 0 ? "pos" : "neg"} sub={`inicial ${fmtMXN(Number(bankroll.starting))}`} />
@@ -183,8 +217,31 @@ export default async function Dashboard() {
         </div>
       </section>
 
+      <h3 className="font-semibold mb-2" style={{ fontSize: 14 }}>🔵 Modelo Simulación — detalle</h3>
+      <section className="card p-4 mb-6 overflow-x-auto">
+        <h2 className="font-semibold mb-1">🔵 Apuestas del Modelo Simulación ({sim.length})</h2>
+        <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Apuesta al <b>favorito de cada simulación</b> (sin filtro de valor), stake plano 2%. Sirve para comparar contra el Modelo Valor.</p>
+        <table>
+          <thead><tr><th>Fecha y hora (MX)</th><th>Partido</th><th>Pick</th><th>Cuota</th><th>Stake</th><th>Estado</th><th>P&L</th></tr></thead>
+          <tbody>
+            {sim.map((b) => (
+              <tr key={b.id}>
+                <td style={{ whiteSpace: "nowrap", color: "var(--muted)", fontSize: 12 }}>{fmtKO(b.kickoff)}</td>
+                <td><b>{b.home}</b> vs {b.away}</td>
+                <td><b>{b.selection}</b></td>
+                <td>{Number(b.odds_taken).toFixed(2)}</td>
+                <td>{fmtMXN(Number(b.stake))}</td>
+                <td><span className="chip" style={{ color: b.status === "won" ? "var(--green)" : b.status === "lost" ? "var(--red)" : "var(--muted)" }}>{b.status === "open" ? "vigente" : b.status}</span></td>
+                <td className={Number(b.result_pnl ?? 0) >= 0 ? "pos" : "neg"}>{b.status === "open" ? "—" : fmtMXN(Number(b.result_pnl ?? 0))}</td>
+              </tr>
+            ))}
+            {sim.length === 0 && <tr><td colSpan={7} style={{ color: "var(--muted)" }}>Sin apuestas del modelo simulación aún.</td></tr>}
+          </tbody>
+        </table>
+      </section>
+
       <section className="card p-4 overflow-x-auto">
-        <h2 className="font-semibold mb-3">📊 Apuestas liquidadas</h2>
+        <h2 className="font-semibold mb-3">📊 Apuestas liquidadas (Modelo Valor)</h2>
         <table>
           <thead><tr><th>Partido</th><th>Pick</th><th>Cuota</th><th>Stake</th><th>Resultado</th><th>P&L</th><th>CLV</th></tr></thead>
           <tbody>

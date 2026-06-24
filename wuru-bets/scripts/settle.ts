@@ -42,10 +42,11 @@ async function main() {
       const pnl = won ? Number(bt.potential_return) : -Number(bt.stake);
       const back = won ? Number(bt.stake) + Number(bt.potential_return) : 0;
       const cv = clvCalc(Number(bt.odds_taken), Number(bt.closing_odds ?? bt.odds_taken));
+      const bkId = bt.model === "simulacion" ? 2 : 1; // enrutar al bankroll del modelo
       await sql`update bets set status=${won ? "won" : "lost"}, result_pnl=${pnl}, clv=${cv}, settled_at=now() where id=${bt.id}`;
-      await sql`update bankroll set current = current + ${back}, updated_at=now() where id=1`;
-      const cur = (await sql`select current from bankroll where id=1`)[0].current;
-      await sql`insert into bankroll_history (balance, note) values (${cur}, ${m.home + " vs " + m.away + ": " + bt.selection})`;
+      await sql`update bankroll set current = current + ${back}, updated_at=now() where id=${bkId}`;
+      const cur = (await sql`select current from bankroll where id=${bkId}`)[0].current;
+      await sql`insert into bankroll_history (balance, note, model) values (${cur}, ${m.home + " vs " + m.away + ": " + bt.selection}, ${bt.model ?? "valor"})`;
       settled++; pnlTotal += pnl;
     }
   }
@@ -61,7 +62,7 @@ async function main() {
     await sql`update bets set status=${won ? "won" : "lost"}, result_pnl=${pnl}, settled_at=now() where id=${p.id}`;
     await sql`update bankroll set current = current + ${back}, updated_at=now() where id=1`;
     const cur = (await sql`select current from bankroll where id=1`)[0].current;
-    await sql`insert into bankroll_history (balance, note) values (${cur}, ${(p.market === "Soñadora" ? "🎰 Soñadora x" : "Parlay x") + legs.length})`;
+    await sql`insert into bankroll_history (balance, note, model) values (${cur}, ${(p.market === "Soñadora" ? "🎰 Soñadora x" : "Parlay x") + legs.length}, 'valor')`;
     settled++; pnlTotal += pnl;
   }
   console.log(`✅ Liquidadas ${settled} apuestas. P&L: ${pnlTotal.toFixed(0)} MXN`);

@@ -9,16 +9,16 @@ export type Bet = {
   odds_source: string | null;
 };
 
-export async function getBankroll() {
-  const rows = await sql`select * from bankroll where id = 1`;
-  return rows[0] as { starting: number; current: number; currency: string } | undefined;
+export async function getBankroll(id = 1) {
+  const rows = await sql`select * from bankroll where id = ${id}`;
+  return rows[0] as { id: number; name: string; starting: number; current: number; currency: string } | undefined;
 }
 
 export async function getOpenBets(): Promise<Bet[]> {
   return (await sql`
     select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
     from bets b left join matches m on m.id = b.match_id
-    where b.status = 'open' and b.market not in ('Soñadora','Parlay')
+    where b.status = 'open' and b.model = 'valor' and b.market not in ('Soñadora','Parlay')
     order by b.edge desc
   `) as unknown as Bet[];
 }
@@ -27,8 +27,19 @@ export async function getSettledBets(): Promise<Bet[]> {
   return (await sql`
     select b.*, m.sport, m.league, coalesce(m.home,'Parlay') as home, coalesce(m.away,'') as away, m.kickoff
     from bets b left join matches m on m.id = b.match_id
-    where b.status in ('won','lost','void') and b.market not in ('Soñadora','Parlay') and coalesce(b.odds_source,'') != 'dream'
+    where b.status in ('won','lost','void') and b.model = 'valor' and b.market not in ('Soñadora','Parlay') and coalesce(b.odds_source,'') != 'dream'
     order by b.settled_at desc nulls last
+    limit 200
+  `) as unknown as Bet[];
+}
+
+// Modelo Simulación (A/B): apuestas al favorito de cada simulación
+export async function getSimBets(): Promise<Bet[]> {
+  return (await sql`
+    select b.*, m.sport, m.league, coalesce(m.home,'') as home, coalesce(m.away,'') as away, m.kickoff
+    from bets b left join matches m on m.id = b.match_id
+    where b.model = 'simulacion'
+    order by (b.status='open') desc, b.placed_at desc
     limit 200
   `) as unknown as Bet[];
 }
@@ -60,8 +71,8 @@ async function fetchParlays(market: string): Promise<Dream[]> {
 export async function getDreamBets(): Promise<Dream[]> { return fetchParlays("Soñadora"); }
 export async function getSmartParlays(): Promise<Dream[]> { return fetchParlays("Parlay"); }
 
-export async function getHistory() {
-  return (await sql`select ts, balance from bankroll_history order by ts asc`) as unknown as {
+export async function getHistory(model = "valor") {
+  return (await sql`select ts, balance from bankroll_history where coalesce(model,'valor')=${model} order by ts asc`) as unknown as {
     ts: string; balance: number;
   }[];
 }

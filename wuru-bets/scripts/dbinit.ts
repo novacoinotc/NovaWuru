@@ -44,10 +44,16 @@ async function main() {
     fav text, fav_prob numeric, updated_at timestamptz default now()
   )`;
 
+  // A/B test: 2 modelos en paralelo, cada uno con su bankroll
+  await sql`alter table bets add column if not exists model text default 'valor'`;
+  await sql`alter table bankroll_history add column if not exists model text default 'valor'`;
+
   const start = Number(process.env.BANKROLL_MXN || 100000);
-  await sql`insert into bankroll (id, starting, current) values (1, ${start}, ${start})
+  await sql`insert into bankroll (id, name, starting, current) values (1, 'Modelo Valor', ${start}, ${start})
             on conflict (id) do nothing`;
-  console.log("✅ Esquema listo. Bankroll inicial:", start, "MXN");
+  await sql`insert into bankroll (id, name, starting, current) values (2, 'Modelo Simulación', ${start}, ${start})
+            on conflict (id) do nothing`;
+  console.log("✅ Esquema listo. 2 modelos ×", start, "MXN (Valor + Simulación)");
   await sql.end();
 }
 main().catch((e) => { console.error(e); process.exit(1); });
