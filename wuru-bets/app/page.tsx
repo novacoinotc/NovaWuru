@@ -71,22 +71,24 @@ export default async function Dashboard() {
         <p style={{ color: "var(--muted)", fontSize: 12, marginBottom: 12 }}>Compara en vivo: <b>Valor</b> (apuesta solo donde el momio paga de más) vs <b>Simulación</b> (apuesta al ganador de cada simulación). Mismo dinero, mismos partidos.</p>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { name: "🟢 Modelo Valor", cur: Number(bankroll.current), st: Number(bankroll.starting), k, n: open.length, lab: "abiertas" },
-            { name: "🔵 Modelo Simulación", cur: simCur, st: simStart, k: kSim, n: simOpen.length, lab: "abiertas" },
+            { name: "🟢 Modelo Valor", cur: Number(bankroll.current), st: Number(bankroll.starting), k, n: open.length },
+            { name: "🔵 Modelo Simulación", cur: simCur, st: simStart, k: kSim, n: simOpen.length },
           ].map((m) => {
-            const pnl = m.cur - m.st;
+            const realized = m.k.pnl;                       // P&L REAL (solo apuestas liquidadas)
+            const enJuego = m.st - m.cur + realized;        // dinero comprometido en apuestas abiertas
+            const total = m.cur + enJuego;                  // capital total (efectivo + en juego)
             return (
               <div key={m.name} className="card p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
                 <div className="flex items-center justify-between">
                   <span className="font-semibold">{m.name}</span>
-                  <span className="text-2xl font-extrabold">{fmtMXN(m.cur)}</span>
+                  <span className="text-xl font-extrabold">{fmtMXN(total)} <span style={{ color: "var(--muted)", fontSize: 11, fontWeight: 400 }}>capital</span></span>
                 </div>
                 <div className="grid grid-cols-3 gap-2" style={{ marginTop: 8 }}>
-                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>P&L</div><div className={pnl >= 0 ? "pos" : "neg"} style={{ fontWeight: 700 }}>{fmtMXN(pnl)}</div></div>
-                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>ROI</div><div className={pnl >= 0 ? "pos" : "neg"} style={{ fontWeight: 700 }}>{pct(pnl / m.st)}</div></div>
+                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>P&L liquidado</div><div className={realized >= 0 ? "pos" : "neg"} style={{ fontWeight: 700 }}>{realized >= 0 ? "+" : ""}{fmtMXN(realized)}</div></div>
+                  <div><div style={{ color: "var(--muted)", fontSize: 11 }}>En juego</div><div style={{ fontWeight: 700 }}>{fmtMXN(enJuego)}</div></div>
                   <div><div style={{ color: "var(--muted)", fontSize: 11 }}>Acierto</div><div style={{ fontWeight: 700 }}>{pct(m.k.hitRate)} <span style={{ color: "var(--muted)", fontSize: 11 }}>({m.k.nSettled})</span></div></div>
                 </div>
-                <div style={{ color: "var(--muted)", fontSize: 11, marginTop: 6 }}>{m.n} {m.lab} · {m.k.nSettled} liquidadas</div>
+                <div style={{ color: "var(--muted)", fontSize: 11, marginTop: 6 }}>💰 disponible {fmtMXN(m.cur)} · {m.n} apuestas abiertas · {m.k.nSettled} liquidadas</div>
               </div>
             );
           })}

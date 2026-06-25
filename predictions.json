@@ -7,37 +7,37 @@
       {
         "market": "1X2",
         "selection": "Algeria",
-        "prob": 0.28065
+        "prob": 0.41263
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.28491
+        "prob": 0.25256
       },
       {
         "market": "1X2",
         "selection": "Austria",
-        "prob": 0.43444
+        "prob": 0.33481
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.52555
+        "prob": 0.73222
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.47445000000000004
+        "prob": 0.26778
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.58938
+        "prob": 0.75428
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.41062
+        "prob": 0.24572000000000005
       }
     ],
     "id": "ALG_AUS",
@@ -90,6 +90,51 @@
     "sport": "Futbol"
   },
   {
+    "home": "Atletico Goianiense",
+    "away": "Ponte Preta",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Atletico Goianiense",
+        "prob": 0.30196
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.21654
+      },
+      {
+        "market": "1X2",
+        "selection": "Ponte Preta",
+        "prob": 0.4815
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.86547
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.13453000000000004
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.85178
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.14822000000000002
+      }
+    ],
+    "id": "ATL_PON",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
     "home": "Beijing FC",
     "away": "Wuhan Three Towns",
     "group": "",
@@ -97,37 +142,37 @@
       {
         "market": "1X2",
         "selection": "Beijing FC",
-        "prob": 0.41717
+        "prob": 0.51699
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.26889
+        "prob": 0.22689
       },
       {
         "market": "1X2",
         "selection": "Wuhan Three Towns",
-        "prob": 0.31394
+        "prob": 0.25612
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.63318
+        "prob": 0.798
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.36682000000000003
+        "prob": 0.20199999999999996
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.67895
+        "prob": 0.79071
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.32104999999999995
+        "prob": 0.20928999999999998
       }
     ],
     "id": "BEI_WUH",
@@ -540,6 +585,51 @@
     "sport": "Futbol"
   },
   {
+    "home": "Dalian Yingbo",
+    "away": "Shanghai Shenhua FC",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Dalian Yingbo",
+        "prob": 0.27268
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.24782
+      },
+      {
+        "market": "1X2",
+        "selection": "Shanghai Shenhua FC",
+        "prob": 0.4795
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.71628
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.28371999999999997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.73626
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.26374
+      }
+    ],
+    "id": "DAL_SHA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
     "home": "DR Congo",
     "away": "Uzbekistan",
     "group": "",
@@ -547,37 +637,37 @@
       {
         "market": "1X2",
         "selection": "DR Congo",
-        "prob": 0.43001
+        "prob": 0.292
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.27784
+        "prob": 0.25158
       },
       {
         "market": "1X2",
         "selection": "Uzbekistan",
-        "prob": 0.29215
+        "prob": 0.45642
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.58754
+        "prob": 0.70161
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.41246000000000005
+        "prob": 0.29839000000000004
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.64236
+        "prob": 0.72658
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.35763999999999996
+        "prob": 0.27342
       }
     ],
     "id": "DRC_UZB",
@@ -637,37 +727,37 @@
       {
         "market": "1X2",
         "selection": "Ecuador",
-        "prob": 0.31769
+        "prob": 0.29191
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.29473
+        "prob": 0.29392
       },
       {
         "market": "1X2",
         "selection": "Germany",
-        "prob": 0.38758
+        "prob": 0.41417
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.51602
+        "prob": 0.49875
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.48397999999999997
+        "prob": 0.50125
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.59127
+        "prob": 0.57163
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.40873000000000004
+        "prob": 0.42837000000000003
       }
     ],
     "id": "ECU_GER",
@@ -862,40 +952,85 @@
       {
         "market": "1X2",
         "selection": "Henan FC",
-        "prob": 0.34587
+        "prob": 0.43538
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.2891
+        "prob": 0.26048
       },
       {
         "market": "1X2",
         "selection": "Shanghai SIPG FC",
-        "prob": 0.36503
+        "prob": 0.30414
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.53494
+        "prob": 0.67026
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.46506000000000003
+        "prob": 0.32974000000000003
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.60457
+        "prob": 0.70553
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.39542999999999995
+        "prob": 0.29447
       }
     ],
     "id": "HEN_SHA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "HJK Helsinki",
+    "away": "KuPS Kuopio",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "HJK Helsinki",
+        "prob": 0.333
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.26927
+      },
+      {
+        "market": "1X2",
+        "selection": "KuPS Kuopio",
+        "prob": 0.39773
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.63055
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.36944999999999995
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.67784
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.32216
+      }
+    ],
+    "id": "HJK_KUP",
     "league": "Mundial 2026",
     "sport": "Futbol"
   },
@@ -952,37 +1087,37 @@
       {
         "market": "1X2",
         "selection": "Japan",
-        "prob": 0.45663
+        "prob": 0.42237
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.28088
+        "prob": 0.26512
       },
       {
         "market": "1X2",
         "selection": "Sweden",
-        "prob": 0.26249
+        "prob": 0.31251
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.54862
+        "prob": 0.65304
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.45138
+        "prob": 0.34696000000000005
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.60549
+        "prob": 0.69402
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.39451
+        "prob": 0.30598000000000003
       }
     ],
     "id": "JAP_SWE",
@@ -1076,6 +1211,51 @@
       }
     ],
     "id": "JPN_SWE",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Liaoning Tieren FC",
+    "away": "Shandong Luneng Taishan FC",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Liaoning Tieren FC",
+        "prob": 0.36432
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.29445
+      },
+      {
+        "market": "1X2",
+        "selection": "Shandong Luneng Taishan FC",
+        "prob": 0.34123
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.51689
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.48311000000000004
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.59113
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.40886999999999996
+      }
+    ],
+    "id": "LIA_SHA",
     "league": "Mundial 2026",
     "sport": "Futbol"
   },
@@ -1312,37 +1492,37 @@
       {
         "market": "1X2",
         "selection": "Operario PR",
-        "prob": 0.31353
+        "prob": 0.38811
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.2762
+        "prob": 0.27323
       },
       {
         "market": "1X2",
         "selection": "América Mineiro",
-        "prob": 0.41027
+        "prob": 0.33866
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.59582
+        "prob": 0.61107
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.40418
+        "prob": 0.38893
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.65164
+        "prob": 0.6623
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.34836
+        "prob": 0.3377
       }
     ],
     "id": "OPE_AMR",
@@ -1402,37 +1582,37 @@
       {
         "market": "1X2",
         "selection": "Paraguay",
-        "prob": 0.30909
+        "prob": 0.31483
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.30083
+        "prob": 0.25777
       },
       {
         "market": "1X2",
         "selection": "Australia",
-        "prob": 0.39008
+        "prob": 0.4274
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.47436
+        "prob": 0.68697
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.52564
+        "prob": 0.31303000000000003
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.55405
+        "prob": 0.71849
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.44594999999999996
+        "prob": 0.28151000000000004
       }
     ],
     "id": "PAR_AUS",
@@ -1627,37 +1807,37 @@
       {
         "market": "1X2",
         "selection": "Sandvikens IF",
-        "prob": 0.39133
+        "prob": 0.34225
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.28591
+        "prob": 0.28606
       },
       {
         "market": "1X2",
         "selection": "Helsingborgs IF",
-        "prob": 0.32276
+        "prob": 0.37169
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.55449
+        "prob": 0.54571
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.44550999999999996
+        "prob": 0.45428999999999997
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.61959
+        "prob": 0.61277
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.38041
+        "prob": 0.38722999999999996
       }
     ],
     "id": "SAN_HEL",
@@ -1800,6 +1980,51 @@
     "sport": "Futbol"
   },
   {
+    "home": "Senegal",
+    "away": "Iraq",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Senegal",
+        "prob": 0.58049
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.24826
+      },
+      {
+        "market": "1X2",
+        "selection": "Iraq",
+        "prob": 0.17125
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.56517
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.43483000000000005
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.57732
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.42267999999999994
+      }
+    ],
+    "id": "SEN_IRA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
     "home": "South Africa",
     "away": "South Korea",
     "group": "",
@@ -1807,37 +2032,37 @@
       {
         "market": "1X2",
         "selection": "South Africa",
-        "prob": 0.17616
+        "prob": 0.2166
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.27034
+        "prob": 0.28456
       },
       {
         "market": "1X2",
         "selection": "South Korea",
-        "prob": 0.5535
+        "prob": 0.49884
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.46928
+        "prob": 0.47425
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.5307200000000001
+        "prob": 0.5257499999999999
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.50241
+        "prob": 0.53145
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.49759
+        "prob": 0.46855
       }
     ],
     "id": "SOU_SOU",
@@ -2167,37 +2392,37 @@
       {
         "market": "1X2",
         "selection": "Uruguay",
-        "prob": 0.13092
+        "prob": 0.24495
       },
       {
         "market": "1X2",
         "selection": "Empate",
-        "prob": 0.21983
+        "prob": 0.27525
       },
       {
         "market": "1X2",
         "selection": "Spain",
-        "prob": 0.64925
+        "prob": 0.4798
       },
       {
         "market": "O/U 2.5",
         "selection": "Over 2.5",
-        "prob": 0.59618
+        "prob": 0.54932
       },
       {
         "market": "O/U 2.5",
         "selection": "Under 2.5",
-        "prob": 0.40381999999999996
+        "prob": 0.45067999999999997
       },
       {
         "market": "BTTS",
         "selection": "BTTS Si",
-        "prob": 0.56535
+        "prob": 0.59968
       },
       {
         "market": "BTTS",
         "selection": "BTTS No",
-        "prob": 0.43465
+        "prob": 0.40032
       }
     ],
     "id": "URU_SPA",

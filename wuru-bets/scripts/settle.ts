@@ -5,7 +5,14 @@ import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
 // results.json keyed por "homeNorm|awayNorm": { hg, ag }  (lo escribe settle_auto.py)
-const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+// alias para que nombres distintos (Czechia/Czech Republic, Turkiye/Turkey) empaten
+const ALIAS: Record<string, string> = {
+  czechia: "czechrepublic", turkiye: "turkey", usa: "unitedstates", korearepublic: "southkorea",
+};
+const norm = (s: string) => {
+  const n = (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+  return ALIAS[n] ?? n;
+};
 
 function grade(market: string, sel: string, home: string, away: string, hg: number, ag: number): boolean {
   if (market === "1X2") {
