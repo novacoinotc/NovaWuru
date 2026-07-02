@@ -128,8 +128,9 @@ export async function placeBets(
         if (edge < EV_TH || edge > EDGE_CAP || odds < 1.2 || odds > MAX_ODDS) continue;
         if (effProb < PROB_FLOOR) continue; // descarta longshots fragiles (optimo backtest 0.20)
         // si ya tenemos esta apuesta abierta (de una corrida anterior), la MANTENEMOS al momio temprano
-        const dup = await sql`select 1 from bets where match_id=${matchId} and market=${market} and selection=${sels[j].selection} and status='open' limit 1`;
-        if (dup.length) continue;
+        // pero actualizamos closing_odds al momio ACTUAL (el último scan antes del kickoff ≈ cierre) -> mide CLV
+        const dup = await sql`select id from bets where match_id=${matchId} and market=${market} and selection=${sels[j].selection} and status='open' limit 1`;
+        if (dup.length) { await sql`update bets set closing_odds=${odds} where id=${dup[0].id}`; continue; }
         const stake = stakeFor(starting, effProb, odds, { fraction: FRAC, maxPct: MAXPCT });
         if (stake < 50) continue;
         const ret = Math.round(stake * (odds - 1));
@@ -240,8 +241,8 @@ export async function placeSimBets(preds: Pred[], opts: { reset?: boolean } = {}
     const fav = x1.reduce((a, c) => (c.prob > a.prob ? c : a));
     const odds = realOdds(entry, "1X2", fav.selection, p.home, p.away);
     if (!odds || odds < 1.2 || odds > 21) continue;
-    const dup = await sql`select 1 from bets where match_id=${mid} and model='simulacion' and status='open' limit 1`;
-    if (dup.length) continue;
+    const dup = await sql`select id from bets where match_id=${mid} and model='simulacion' and status='open' limit 1`;
+    if (dup.length) { await sql`update bets set closing_odds=${odds} where id=${dup[0].id}`; continue; }
     const stake = Math.round(starting * FLAT);
     const ret = Math.round(stake * (odds - 1));
     await sql`insert into bets (match_id, market, selection, model_prob, odds_taken, implied_prob, edge, stake, potential_return, opening_odds, odds_source, status, model)

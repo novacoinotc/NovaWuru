@@ -135,6 +135,96 @@
     "sport": "Futbol"
   },
   {
+    "home": "Australia",
+    "away": "Egypt",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Australia",
+        "prob": 0.39905
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.26064
+      },
+      {
+        "market": "1X2",
+        "selection": "Egypt",
+        "prob": 0.34031
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.68989
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.31011
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.72492
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.27508
+      }
+    ],
+    "id": "AUS_EGY",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Beijing FC",
+    "away": "Shandong Luneng Taishan FC",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Beijing FC",
+        "prob": 0.39206
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.25801
+      },
+      {
+        "market": "1X2",
+        "selection": "Shandong Luneng Taishan FC",
+        "prob": 0.34993
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.70191
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.29808999999999997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.73524
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.26476
+      }
+    ],
+    "id": "BEI_SHA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
     "home": "Beijing FC",
     "away": "Wuhan Three Towns",
     "group": "",
@@ -626,6 +716,96 @@
       }
     ],
     "id": "DAL_SHA",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Dalian Yingbo",
+    "away": "Wuhan Three Towns",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Dalian Yingbo",
+        "prob": 0.30935
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.25101
+      },
+      {
+        "market": "1X2",
+        "selection": "Wuhan Three Towns",
+        "prob": 0.43964
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.71982
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.28018
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.74223
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.25777000000000005
+      }
+    ],
+    "id": "DAL_WUH",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Degerfors IF",
+    "away": "Malmo FF",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Degerfors IF",
+        "prob": 0.27983
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.24033
+      },
+      {
+        "market": "1X2",
+        "selection": "Malmo FF",
+        "prob": 0.47984
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.74892
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.25107999999999997
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.75853
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.24146999999999996
+      }
+    ],
+    "id": "DEG_MAL",
     "league": "Mundial 2026",
     "sport": "Futbol"
   },
@@ -1216,6 +1396,51 @@
   },
   {
     "home": "Liaoning Tieren FC",
+    "away": "Chongqing Tonglianglong FC",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Liaoning Tieren FC",
+        "prob": 0.38405
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.24378
+      },
+      {
+        "market": "1X2",
+        "selection": "Chongqing Tonglianglong FC",
+        "prob": 0.37217
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.79302
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.20698000000000005
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.80621
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.19379000000000002
+      }
+    ],
+    "id": "LIA_CHO",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Liaoning Tieren FC",
     "away": "Shandong Luneng Taishan FC",
     "group": "",
     "markets": [
@@ -1661,6 +1886,51 @@
       }
     ],
     "id": "POR_UZB",
+    "league": "Mundial 2026",
+    "sport": "Futbol"
+  },
+  {
+    "home": "Qingdao West Coast FC",
+    "away": "Shanghai SIPG FC",
+    "group": "",
+    "markets": [
+      {
+        "market": "1X2",
+        "selection": "Qingdao West Coast FC",
+        "prob": 0.33066
+      },
+      {
+        "market": "1X2",
+        "selection": "Empate",
+        "prob": 0.27817
+      },
+      {
+        "market": "1X2",
+        "selection": "Shanghai SIPG FC",
+        "prob": 0.39117
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Over 2.5",
+        "prob": 0.59474
+      },
+      {
+        "market": "O/U 2.5",
+        "selection": "Under 2.5",
+        "prob": 0.40525999999999995
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS Si",
+        "prob": 0.65247
+      },
+      {
+        "market": "BTTS",
+        "selection": "BTTS No",
+        "prob": 0.34753
+      }
+    ],
+    "id": "QIN_SHA",
     "league": "Mundial 2026",
     "sport": "Futbol"
   },

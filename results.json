@@ -1,94 +1,42 @@
 {
-  "france|iraq": {
-    "hg": 3,
-    "ag": 0
-  },
-  "norway|senegal": {
-    "hg": 3,
-    "ag": 2
-  },
-  "jordan|algeria": {
-    "hg": 1,
-    "ag": 2
-  },
-  "portugal|uzbekistan": {
-    "hg": 5,
-    "ag": 0
-  },
-  "england|ghana": {
-    "hg": 0,
-    "ag": 0
-  },
-  "panama|croatia": {
-    "hg": 0,
-    "ag": 1
-  },
-  "colombia|drcongo": {
-    "hg": 1,
-    "ag": 0
-  },
-  "bosniaherzegovina|qatar": {
-    "hg": 3,
-    "ag": 1
-  },
-  "switzerland|canada": {
+  "brazil|japan": {
     "hg": 2,
     "ag": 1
   },
-  "morocco|haiti": {
-    "hg": 4,
+  "germany|paraguay": {
+    "hg": 1,
+    "ag": 1
+  },
+  "netherlands|morocco": {
+    "hg": 1,
+    "ag": 1
+  },
+  "ivorycoast|norway": {
+    "hg": 1,
     "ag": 2
   },
-  "scotland|brazil": {
-    "hg": 0,
-    "ag": 3
-  },
-  "czechrepublic|mexico": {
-    "hg": 0,
-    "ag": 3
-  },
-  "southafrica|southkorea": {
-    "hg": 1,
+  "france|sweden": {
+    "hg": 3,
     "ag": 0
   },
-  "pontepreta|gremionovorizontino": {
-    "hg": 0,
+  "mexico|ecuador": {
+    "hg": 2,
+    "ag": 0
+  },
+  "england|drcongo": {
+    "hg": 2,
+    "ag": 1
+  },
+  "belgium|senegal": {
+    "hg": 3,
     "ag": 2
   },
-  "americamineiro|criciuma": {
-    "hg": 0,
-    "ag": 1
-  },
-  "vpsvaasa|acoulu": {
-    "hg": 5,
-    "ag": 1
-  },
-  "kupskuopio|ilvestampere": {
-    "hg": 4,
-    "ag": 3
-  },
-  "fclahti|tpsturku": {
-    "hg": 0,
+  "usa|bosniaherzegovina": {
+    "hg": 2,
     "ag": 0
   },
-  "fcinterturku|sjkseinajoki": {
-    "hg": 1,
-    "ag": 1
-  },
-  "jaro|ifgnistan": {
-    "hg": 1,
-    "ag": 1
-  },
-  "ifkmariehamn|hjkhelsinki": {
+  "botafogo|clubederegatasbrasil": {
     "hg": 0,
-    "ag": 4
-  },
-  "shelbournedublin|bohemians": {
-    "hg": 0,
-    "ag": 3
-  },
-  "shamrockrovers|derrycity": {
-    "hg": 1,
     "ag": 1
   }
 }
