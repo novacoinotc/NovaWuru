@@ -1,0 +1,30 @@
+name: Wuru Settle (nube)
+# Jala resultados reales y liquida apuestas (ambos modelos) + CLV. 24/7 sin tu Mac.
+on:
+  schedule:
+    - cron: '30 5 * * *'   # 23:30 MX
+    - cron: '30 17 * * *'  # 11:30 MX (segunda pasada por si faltan resultados)
+  workflow_dispatch:
+concurrency:
+  group: wuru-settle
+  cancel-in-progress: false
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Config (.env desde secret)
+        run: |
+          mkdir -p wuru-bets
+          cat > wuru-bets/.env <<'ENVEOF'
+          ${{ secrets.WURU_ENV }}
+          ENVEOF
+      - name: Instalar deps Node
+        run: cd wuru-bets && npm install --no-audit --no-fund
+      - name: Liquidar resultados (ambos modelos)
+        run: python3 settle_auto.py 3

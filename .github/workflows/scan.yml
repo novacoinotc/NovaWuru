@@ -1,0 +1,36 @@
+name: Wuru Scan (nube)
+# Escanea ligas, corre el modelo completo y coloca apuestas (ambos modelos) en Neon. 24/7 sin tu Mac.
+on:
+  schedule:
+    - cron: '0 15 * * *'   # 09:00 MX
+    - cron: '0 3 * * *'    # 21:00 MX
+  workflow_dispatch:        # permite dispararlo a mano
+concurrency:
+  group: wuru-scan
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      # reusa investigacion profunda ya hecha (no re-gastar GLM en partidos ya investigados)
+      - uses: actions/cache@v4
+        with:
+          path: match_*.json
+          key: wuru-matches-${{ github.run_id }}
+          restore-keys: wuru-matches-
+      - name: Config (.env desde secret)
+        run: |
+          mkdir -p wuru-bets
+          cat > wuru-bets/.env <<'ENVEOF'
+          ${{ secrets.WURU_ENV }}
+          ENVEOF
+      - name: Instalar deps Node
+        run: cd wuru-bets && npm install --no-audit --no-fund
+      - name: Escaneo + apuestas (ambos modelos)
+        run: python3 scanner.py 15 120
