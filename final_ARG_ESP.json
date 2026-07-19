@@ -1,0 +1,259 @@
+{
+  "meta": {
+    "id": "ARG_ESP",
+    "home": "Argentina",
+    "away": "Spain",
+    "group": "FINAL",
+    "venue": "MetLife Stadium, New Jersey",
+    "host": ""
+  },
+  "referee": {
+    "name": "Slavko Vinčić (ESL)",
+    "yellows_per_game": 3.0,
+    "reds_per_game": 0.12,
+    "strictness": 45,
+    "pen_tendency": 15,
+    "note": "WC2026: 2.33 amar/partido (3 juegos); carrera ~4.1; permisivo con tarjetas, 0 penales en Mundiales; blend final=3.0"
+  },
+  "stats": {
+    "home": {
+      "corners_for": 5.7,
+      "corners_against": 4.3,
+      "fouls": 13.2,
+      "yellows": 1.6,
+      "reds_per_game": 0.03,
+      "shots": 14.5,
+      "shots_on_target": 5.3,
+      "possession": 58.0
+    },
+    "away": {
+      "corners_for": 5.8,
+      "corners_against": 4.2,
+      "fouls": 11.8,
+      "yellows": 1.7,
+      "reds_per_game": 0.08,
+      "shots": 14.2,
+      "shots_on_target": 5.1,
+      "possession": 58.3
+    }
+  },
+  "goals": {
+    "pH": 0.38585888585888584,
+    "pD": 0.2971852971852972,
+    "pA": 0.316955816955817,
+    "egH": 1.3732893732893734,
+    "egA": 1.2347817347817347,
+    "over25": 0.47955297955297954,
+    "btts": 0.5551440551440552,
+    "top": [
+      [
+        1,
+        1,
+        0.13894163894163894
+      ],
+      [
+        1,
+        0,
+        0.10139210139210139
+      ],
+      [
+        0,
+        1,
+        0.08846458846458846
+      ],
+      [
+        2,
+        1,
+        0.08806158806158806
+      ],
+      [
+        0,
+        0,
+        0.08181408181408181
+      ],
+      [
+        1,
+        2,
+        0.07752407752407753
+      ]
+    ]
+  },
+  "corners": {
+    "total": 9.9988024988025,
+    "over95": 0.5402925402925403
+  },
+  "cards": {
+    "yellows": 4.243092243092243,
+    "over45": 0.4185044185044185,
+    "red": 0.301009301009301
+  },
+  "fouls": {
+    "total": 26.782878282878283
+  },
+  "scorers_anytime": [
+    [
+      "Argentina",
+      "Julián Álvarez",
+      0.25549995361015954
+    ],
+    [
+      "Argentina",
+      "Lionel Messi",
+      0.24367524945193508
+    ],
+    [
+      "Spain",
+      "Mikel Oyarzabal",
+      0.22491420808001916
+    ],
+    [
+      "Argentina",
+      "Enzo Fernández",
+      0.20653042241031716
+    ],
+    [
+      "Spain",
+      "Daniel Olmo Carvajal",
+      0.20056001738068507
+    ],
+    [
+      "Argentina",
+      "Rodrigo Javier De Paul",
+      0.19473830795261082
+    ],
+    [
+      "Argentina",
+      "Alexis Mac Allister",
+      0.18768803258070754
+    ],
+    [
+      "Spain",
+      "Lamine Yamal",
+      0.18735832887964943
+    ],
+    [
+      "Spain",
+      "Fabián Ruiz",
+      0.16638772105441224
+    ],
+    [
+      "Spain",
+      "Álex Baena",
+      0.1394118311704745
+    ],
+    [
+      "Spain",
+      "Rodri (Rodrigo Hernández Cascante)",
+      0.06851481494150102
+    ],
+    [
+      "Argentina",
+      "Nahuel Molina",
+      0.04745230818346691
+    ]
+  ],
+  "first_scorer": [
+    [
+      "Argentina",
+      "Julián Álvarez",
+      0.1044106117111843
+    ],
+    [
+      "Argentina",
+      "Lionel Messi",
+      0.09883413966056791
+    ],
+    [
+      "Spain",
+      "Mikel Oyarzabal",
+      0.08917930594944302
+    ],
+    [
+      "Argentina",
+      "Enzo Fernández",
+      0.08186742682571374
+    ],
+    [
+      "Spain",
+      "Daniel Olmo Carvajal",
+      0.07835039796194494
+    ],
+    [
+      "Argentina",
+      "Rodrigo Javier De Paul",
+      0.07664689979960479
+    ],
+    [
+      "Argentina",
+      "Alexis Mac Allister",
+      0.0735620429205404
+    ],
+    [
+      "Spain",
+      "Lamine Yamal",
+      0.07261744667444596
+    ]
+  ],
+  "bookings": [
+    [
+      "Argentina",
+      "Leandro Paredes",
+      0.4104184224773416
+    ],
+    [
+      "Spain",
+      "Marc Cucurella",
+      0.3600025852253912
+    ],
+    [
+      "Argentina",
+      "Cristian Gabriel Romero",
+      0.3365190993135593
+    ],
+    [
+      "Spain",
+      "Pedro Porro",
+      0.3365190993135593
+    ],
+    [
+      "Argentina",
+      "Lisandro Martínez",
+      0.2713500141650531
+    ],
+    [
+      "Argentina",
+      "Nicolás Tagliafico",
+      0.2713500141650531
+    ],
+    [
+      "Spain",
+      "Pau Cubarsí",
+      0.260770919668158
+    ],
+    [
+      "Argentina",
+      "Nahuel Molina",
+      0.19399165700091103
+    ],
+    [
+      "Spain",
+      "Álex Baena",
+      0.19399165700091103
+    ],
+    [
+      "Spain",
+      "Aymeric Laporte",
+      0.15837275826766772
+    ],
+    [
+      "Argentina",
+      "Rodrigo Javier De Paul",
+      0.12894079828903293
+    ],
+    [
+      "Argentina",
+      "Enzo Fernández",
+      0.10842041911286748
+    ]
+  ]
+}

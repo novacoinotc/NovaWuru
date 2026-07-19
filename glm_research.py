@@ -19,7 +19,7 @@ MODEL = "glm-4.6"
 _lock = threading.Lock()
 USAGE = {"in": 0, "out": 0, "calls": 0}
 
-def glm(prompt, web=True, max_tokens=1800, retries=2):
+def glm(prompt, web=True, max_tokens=1800, retries=5):
     body = {"model": MODEL, "max_tokens": max_tokens, "messages": [{"role": "user", "content": prompt}]}
     if web: body["tools"] = [{"type": "web_search_20250305", "name": "web_search"}]
     for attempt in range(retries + 1):
@@ -31,9 +31,12 @@ def glm(prompt, web=True, max_tokens=1800, retries=2):
             with _lock:
                 USAGE["in"] += u.get("input_tokens", 0); USAGE["out"] += u.get("output_tokens", 0); USAGE["calls"] += 1
             return "".join(c.get("text", "") for c in d.get("content", []) if c.get("type") == "text")
+        except urllib.error.HTTPError as e:
+            if attempt == retries: raise
+            time.sleep(20 * (attempt + 1) if e.code == 429 else 5)  # 429 = rate limit -> backoff largo
         except Exception:
             if attempt == retries: raise
-            time.sleep(4)
+            time.sleep(5)
 
 def parse_json(text):
     t = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.MULTILINE).strip()
@@ -93,7 +96,7 @@ def get_env(home, away, venue):
     if e.get("home_support_pct", 0) > 1: e["home_support_pct"] = e["home_support_pct"] / 100.0
     return e
 
-def research_match(meta, workers=10, verbose=True):
+def research_match(meta, workers=6, verbose=True):
     home, away, venue = meta["home"], meta["away"], meta.get("venue", "sede neutral")
     host = meta.get("host", "")
     ctx = f"Grupo {meta.get('group','')}, {venue}, Mundial 2026." + (f" {host} es anfitrion (ventaja local)." if host else " Sede neutral.")
