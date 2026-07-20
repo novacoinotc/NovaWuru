@@ -87,8 +87,8 @@ def get_twin(name, pos, team, opp, ctx):
             if attempt == 1: raise
             time.sleep(2)
 
-def get_env(home, away, venue):
-    p = (f"Investiga (web search) condiciones de {home} vs {away} en {venue} (Mundial 2026).\n"
+def get_env(home, away, venue, comp="Mundial 2026"):
+    p = (f"Investiga (web search) condiciones de {home} vs {away} en {venue} ({comp}).\n"
          'Responde SOLO JSON: {"rain_probability_kickoff":0-1,"temp_c_kickoff":num,"humidity_pct":num,"wind_kmh":num,'
          '"pitch_type":"...","pitch_speed_factor":num,"stadium_capacity":int,"home_support_pct":0-1,"crowd_noise":0-100,"notes":"..."}. Sin texto.')
     e = parse_json(glm(p))
@@ -99,14 +99,15 @@ def get_env(home, away, venue):
 def research_match(meta, workers=6, verbose=True):
     home, away, venue = meta["home"], meta["away"], meta.get("venue", "sede neutral")
     host = meta.get("host", "")
-    ctx = f"Grupo {meta.get('group','')}, {venue}, Mundial 2026." + (f" {host} es anfitrion (ventaja local)." if host else " Sede neutral.")
+    comp = meta.get("comp", "Mundial 2026")
+    ctx = f"{meta.get('group','')}, {venue}, {comp}." + (f" {host} juega en casa (ventaja local)." if host else " Sede neutral.")
     t0 = time.time()
     def pad_xi(xi):
         xi = xi[:11]
         while len(xi) < 11: xi.append({"name": f"Jugador {len(xi)+1}", "position": "MF"})
         return xi
     with ThreadPoolExecutor(workers) as ex:
-        fenv = ex.submit(get_env, home, away, venue)
+        fenv = ex.submit(get_env, home, away, venue, comp)
         fH = ex.submit(get_xi, home, away, ctx); fA = ex.submit(get_xi, away, home, ctx)
         env = fenv.result(); xiH = pad_xi(fH.result()); xiA = pad_xi(fA.result())
         futs = {ex.submit(get_twin, pl["name"], pl["position"], home, away, ctx): ("home", pl) for pl in xiH}

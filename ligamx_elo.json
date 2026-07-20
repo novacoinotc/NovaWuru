@@ -1,0 +1,33 @@
+{
+  "comment": "Elo Liga MX Apertura 2026 tras J1 — investigado con Opus 4.8 (web): Clausura 2026, fichajes, DTs, J1. Anclado en 1600=promedio liga. Variantes con y sin acento para el lookup del motor.",
+  "elo": {
+    "Cruz Azul": 1725,
+    "Toluca": 1720,
+    "Pumas": 1685,
+    "América": 1680, "America": 1680,
+    "Chivas": 1675,
+    "Pachuca": 1660,
+    "Monterrey": 1655,
+    "Tigres": 1645, "Tigres UANL": 1645,
+    "Atlas": 1575,
+    "León": 1560, "Leon": 1560,
+    "San Luis": 1555, "Atlético San Luis": 1555, "Atletico San Luis": 1555,
+    "Tijuana": 1545,
+    "Necaxa": 1535,
+    "Juárez": 1530, "Juarez": 1530, "FC Juárez": 1530, "FC Juarez": 1530,
+    "Santos": 1500, "Santos Laguna": 1500,
+    "Querétaro": 1495, "Queretaro": 1495,
+    "Puebla": 1475,
+    "Atlante": 1450
+  },
+  "j1_results": ["Necaxa 2-1 Atlante", "Tijuana 2-1 Tigres", "Atlético San Luis 2-3 Cruz Azul", "León 2-3 Atlas", "FC Juárez 0-1 Puebla", "Pumas 0-3 Pachuca", "Monterrey 3-2 Santos Laguna", "Chivas 0-2 Toluca", "Querétaro 0-1 América"],
+  "notes": {
+    "Cruz Azul": "CAMPEÓN Clausura 2026; J2 vs Puebla con solo 3 días de descanso (Campeón de Campeones)",
+    "Toluca": "Campeón Apertura 2025; ganó 0-2 en el Akron; refuerzos Erick Gutiérrez y V. Guzmán",
+    "Pumas": "Subcampeón y líder de la regular, pero debut 0-3 vs Pachuca y DT Solari expulsado",
+    "América": "Nuevo DT Almada; ganó en Querétaro; sin refuerzos oficializados aún",
+    "Chivas": "Plantel más caro (~108M); debut 0-2 y expulsión de Á. Sepúlveda",
+    "Tigres": "Reconstrucción post-Gignac; perdió en Tijuana con roja a Aguirre",
+    "Atlante": "Compró la franquicia de Mazatlán; plantel de Expansión; local en CDMX (J2 en Cd. de los Deportes)"
+  }
+}
