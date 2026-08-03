@@ -31,12 +31,15 @@ def metrics(M, n=100000):
 def main():
     out=[]
     for f in sorted(glob.glob("match_*.json")):
-        M=json.load(open(f,encoding='utf-8'))
-        if len(M.get('home',{}).get('players',[]))!=11 or len(M.get('away',{}).get('players',[]))!=11: continue
-        mid=f.replace("match_","").replace(".json","")
-        m=metrics(M); m['id']=mid; m['league']=LEAGUE; m['sport']='Futbol'
-        out.append(m)
-        print(f"  {mid}: {m['home']} vs {m['away']}")
+        try:
+            M=json.load(open(f,encoding='utf-8'))
+            if len(M.get('home',{}).get('players',[]))!=11 or len(M.get('away',{}).get('players',[]))!=11: continue
+            mid=f.replace("match_","").replace(".json","")
+            m=metrics(M); m['id']=mid; m['league']=LEAGUE; m['sport']='Futbol'
+            out.append(m)
+            print(f"  {mid}: {m['home']} vs {m['away']}")
+        except Exception as e:
+            print(f"  ⚠️ {f} inválido/corrupto, lo salto: {type(e).__name__}")  # no tumbar todo el scan por 1 archivo
     json.dump(out,open("predictions.json","w",encoding='utf-8'),ensure_ascii=False,indent=2)
     print(f"predictions.json -> {len(out)} partidos")
 
